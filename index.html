@@ -102,32 +102,32 @@ header h2::after {
 
 
 
-
-
-
 /* ====== HEADER / NAVBAR ====== */
 header {
   position: fixed;
-  top: 0;                 /* 🔥 absolutely at the top */
-  left: 0;
-  width: 100%;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92%;
+  max-width: 1200px;
   margin: 0;
-  padding: 14px 40px;
+  padding: 14px 36px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
   backdrop-filter: blur(20px) saturate(180%);
-  background: rgba(85, 85, 85, 0.6); /* sleek darker glass */
-  border-bottom: 1px solid rgba(200, 200, 200, 0.25);
-  box-shadow: 0 3px 18px rgba(0, 0, 0, 0.25);
+  background: rgba(85, 85, 85, 0.6);
+  border: 1px solid rgba(200, 200, 200, 0.25);
+  border-radius: 18px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
   z-index: 1000;
-  transition: background 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+  transition: background 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, width 0.4s ease;
 }
 
 body.dark header {
   background: rgba(30, 41, 59, 0.9);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 /* Brand */
@@ -177,7 +177,7 @@ header .brand strong {
 .dropdown-content {
   display: none;
   position: absolute;
-  top: 110%;
+  top: 115%;
   left: 0;
   background: linear-gradient(180deg, rgba(80,80,80,0.95), rgba(50,50,50,0.9));
   backdrop-filter: blur(10px);
@@ -191,7 +191,7 @@ header .brand strong {
 }
 .dropdown-content a {
   color: #fff;
-  padding: 12px 16px;
+  padding: 10px 14px;
   display: block;
   font-weight: 500;
   transition: background 0.25s ease;
@@ -200,14 +200,14 @@ header .brand strong {
   background: rgba(255,255,255,0.15);
 }
 
-/* Desktop hover */
+/* Hover for desktop */
 @media (hover: hover) and (pointer: fine) {
   .dropdown:hover .dropdown-content {
     display: flex;
   }
 }
 
-/* Fade animation */
+/* Animation */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-6px); }
   to { opacity: 1; transform: translateY(0); }
@@ -232,8 +232,17 @@ header .brand strong {
 .hamburger.active span:nth-child(2) { opacity: 0; }
 .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
-/* Mobile */
+/* ===== MOBILE ===== */
 @media (max-width: 768px) {
+  header {
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    border-radius: 0; /* 🔥 flat bar on mobile */
+    padding: 12px 18px;
+  }
+
   .hamburger {
     display: flex !important;
   }
@@ -242,22 +251,22 @@ header .brand strong {
     display: none;
     flex-direction: column;
     position: absolute;
-    top: 60px;
-    right: 15px;
-    background: rgba(50, 50, 50, 0.95);
+    top: 58px; /* ✅ reduced space from hamburger */
+    right: 12px;
+    background: rgba(50, 50, 50, 0.96);
     border-radius: 12px;
-    width: 230px;
-    box-shadow: 0 8px 18px rgba(0,0,0,0.4);
+    width: 220px;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.35);
     overflow: hidden;
+    animation: fadeIn 0.25s ease;
   }
 
   #navbar.show { display: flex; }
 
   #navbar a {
-    padding: 14px 18px;
+    padding: 10px 14px; /* ✅ reduced padding */
     border-bottom: 1px solid rgba(255,255,255,0.08);
   }
-
   #navbar a:last-child { border-bottom: none; }
 
   .dropdown-content {
@@ -266,10 +275,15 @@ header .brand strong {
     box-shadow: none;
   }
 
+  /* FIXED: dropdown properly shows inside menu */
   .dropdown.open .dropdown-content {
     display: flex !important;
   }
 }
+
+
+
+
 
 
 
@@ -577,64 +591,46 @@ section {
 
 
 
-    <script>
-  const hamburger = document.querySelector('.hamburger');
-const navbar = document.getElementById('navbar');
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const hamburger = document.querySelector(".hamburger");
+  const navbar = document.getElementById("navbar");
 
-hamburger.addEventListener('click', () => {
-  hamburger.classList.toggle('active');
-  navbar.classList.toggle('show');
-});
-</script>
-    <script>
-  function toggleDetails(btn) {
-    const details = btn.nextElementSibling;
-    const open = btn.getAttribute('aria-expanded') === 'true';
-    if (!details) return;
+  // 🔹 Toggle hamburger & menu
+  hamburger.addEventListener("click", (e) => {
+    e.stopPropagation();
+    hamburger.classList.toggle("active");
+    navbar.classList.toggle("show");
+  });
 
-    if (!open) {
-      if (details.hasAttribute('hidden')) details.removeAttribute('hidden');
-      details.style.maxHeight = details.scrollHeight + 'px';
-      details.style.paddingTop = '8px';
-      btn.setAttribute('aria-expanded', 'true');
-      btn.textContent = 'Hide Details ▴';
-      details.addEventListener('transitionend', function onEnd() {
-        details.style.maxHeight = 'none';
-        details.removeEventListener('transitionend', onEnd);
-      });
-    } else {
-      const h = details.scrollHeight;
-      details.style.maxHeight = h + 'px';
-      requestAnimationFrame(() => {
-        details.style.maxHeight = '0px';
-        details.style.paddingTop = '0px';
-      });
-      btn.setAttribute('aria-expanded', 'false');
-      btn.textContent = 'View Details ▾';
-      details.addEventListener('transitionend', function onEnd() {
-        details.setAttribute('hidden', '');
-        details.removeEventListener('transitionend', onEnd);
-      });
+  // 🔹 Toggle dropdown ("More ▾") on mobile
+  document.querySelectorAll(".dropdown > .dropbtn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      if (window.innerWidth <= 768) {
+        e.preventDefault();
+        e.stopPropagation();
+        const parent = btn.parentElement;
+        parent.classList.toggle("open");
+      }
+    });
+  });
+
+  // 🔹 Close all menus when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!navbar.contains(e.target) && !hamburger.contains(e.target)) {
+      navbar.classList.remove("show");
+      hamburger.classList.remove("active");
+      document.querySelectorAll(".dropdown").forEach((d) => d.classList.remove("open"));
     }
-  }
+  });
 
-  // Optional: Disable scroll fade-in on small screens to avoid jank
+  // 🔹 Optional: disable scroll fade animations on small screens for smoother experience
   if (window.matchMedia("(max-width: 768px)").matches) {
-    document.querySelectorAll('.timeline-content').forEach(el => {
+    document.querySelectorAll(".timeline-content").forEach((el) => {
       el.style.opacity = 1;
       el.style.transform = "none";
     });
   }
-</script>
-    <script>
-document.querySelectorAll('.dropdown > .dropbtn').forEach(btn => {
-  btn.addEventListener('click', e => {
-    if (window.innerWidth <= 768) {
-      e.preventDefault();
-      const parent = btn.parentElement;
-      parent.classList.toggle('open');
-    }
-  });
 });
 </script>
 
