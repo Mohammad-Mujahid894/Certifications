@@ -1,3 +1,5 @@
+yea but give me the whole code
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,172 +25,34 @@
       color: #e2e8f0;
     }
 
-    /* ---- NAVBAR ---- */
     header {
-      position: fixed;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 95%;
-      max-width: 1100px;
-      padding: 12px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      backdrop-filter: blur(20px) saturate(150%);
-      background: rgba(255, 255, 255, 0.55);
-      border: 1px solid rgba(200, 200, 200, 0.35);
-      border-radius: 18px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      transition: background 0.4s ease, box-shadow 0.4s ease;
-      z-index: 1000;
-    }
-    body.dark header {
-      background: rgba(30, 41, 59, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    header.scrolled {
-      background: rgba(240, 242, 245, 0.9);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-    }
-    body.dark header.scrolled {
-      background: rgba(17, 24, 39, 0.85);
-    }
-
-    .brand {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .brand img {
-      width: 38px;
-      height: 38px;
-      border-radius: 8px;
-      object-fit: cover;
-    }
-    .brand strong {
-      font-size: 18px;
-      color: #0f172a;
-    }
-    body.dark .brand strong { color: #e2e8f0; }
-
-    #navbar {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-    #navbar a {
-      color: #0f172a;
-      text-decoration: none;
-      font-weight: 600;
-      padding: 8px 12px;
-      border-radius: 10px;
-      transition: all 0.3s ease;
-    }
-    #navbar a:hover {
-      background: rgba(0, 0, 0, 0.06);
-    }
-    body.dark #navbar a {
-      color: #e2e8f0;
-    }
-    body.dark #navbar a:hover {
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    .dropdown {
-      position: relative;
-    }
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      min-width: 200px;
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      flex-direction: column;
-      backdrop-filter: blur(12px);
-      z-index: 2000;
-    }
-    .dropdown-content a {
-      display: block;
-      padding: 10px 16px;
-      color: #0f172a;
-      text-decoration: none;
-    }
-    .dropdown-content a:hover { background: rgba(0, 0, 0, 0.08); }
-    body.dark .dropdown-content {
-      background: rgba(30, 41, 59, 0.9);
-    }
-    body.dark .dropdown-content a { color: #e2e8f0; }
-
-    @media (hover: hover) and (pointer: fine) {
-      .dropdown:hover .dropdown-content { display: flex; }
-    }
-
-    .hamburger {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      cursor: pointer;
-      z-index: 1101;
-    }
-    .hamburger span {
-      height: 3px;
-      width: 25px;
-      background: #0f172a;
-      border-radius: 2px;
-      transition: all 0.3s ease;
-    }
-    body.dark .hamburger span { background: #e2e8f0; }
-    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-    .hamburger.active span:nth-child(2) { opacity: 0; }
-    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-
-    @media (max-width: 768px) {
-      header {
-        left: 0;
-        right: 0;
-        transform: none;
-        width: 100%;
-        border-radius: 0;
-      }
-      #navbar {
-        position: absolute;
-        top: 60px;
-        right: 15px;
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        max-height: 0;
-        width: 250px;
-        overflow: hidden;
-        flex-direction: column;
-        transition: max-height 0.3s ease;
-      }
-      #navbar.show { max-height: 500px; overflow-y: auto; }
-      body.dark #navbar { background: rgba(30, 41, 59, 0.95); }
-      #navbar a {
-        display: block;
-        width: 100%;
-        padding: 12px 15px;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-      }
-      .dropdown.active .dropdown-content { display: block; }
-    }
-
-    .intro-center {
       text-align: center;
-      margin-top: 110px;
+      margin-top: 3rem;
     }
-    .title span {
-      background: linear-gradient(90deg, #7aa2ff, #8a7aff, #4ff0b0);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      font-size: 2.6rem;
-      font-weight: 700;
+
+   header h2 {
+  font-size: 2.6rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #7aa2ff, #8a7aff, #4ff0b0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  position: relative;
+}
+header h2::after {
+  content: "";
+  display: block;
+  width: 90px;
+  height: 3px;
+  background: linear-gradient(90deg, #7aa2ff, #8a7aff, #4ff0b0);
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+}
+
+    section {
+      padding: 2rem 1rem 4rem;
+      max-width: 1100px;
+      margin: auto;
     }
 
     p.subtitle {
@@ -198,16 +62,277 @@
     }
     body.dark p.subtitle { color: #94a3b8; }
 
-    section {
-      padding: 2rem 1rem 4rem;
-      max-width: 1100px;
-      margin: auto;
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+    header {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 95%;
+  max-width: 1100px;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  backdrop-filter: saturate(180%) blur(20px);
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+}
+
+/* Brand */
+header .brand {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+header .brand img {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+header .brand strong {
+  font-size: 18px;
+  color: #eaf2ff;
+  white-space: nowrap;
+}
+
+/* ===== NAV ===== */
+#navbar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+#navbar a {
+  color: #eaf2ff;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 12px;
+  transition: all 0.3s ease;
+}
+#navbar a:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  color: #fff;
+}
+
+/* ===== DROPDOWN ===== */
+.dropdown {
+  position: relative;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;      /* below button */
+  left: 0;
+  min-width: 200px;
+  background: rgba(20,20,20,0.95);
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.6);
+  flex-direction: column;
+  z-index: 2000;
+}
+.dropdown-content a {
+  display: block;
+  padding: 10px 16px;
+  color: #fff;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.dropdown-content a:hover {
+  background: rgba(122, 162, 255, 0.3);
+}
+
+/* Show dropdown on hover (desktop) */
+@media (hover: hover) and (pointer: fine) {
+  .dropdown:hover .dropdown-content {
+    display: flex;
+  }
+}
+
+/* ===== HAMBURGER ===== */
+.hamburger {
+display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  z-index: 1101;
+}
+.hamburger span {
+  height: 3px;
+  width: 25px;
+  background: white;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  header {
+    left: 0;
+    right: 0;
+    transform: none;
+    width: 100%;
+    padding: 10px 15px;   /* reduce padding to avoid overflow */
+    display: flex;
+    justify-content: space-between; /* brand left, hamburger right */
+    align-items: center;
+    border-radius: 0;
+    box-sizing: border-box;
+  }
+
+  #navbar {
+    position: absolute;
+    top: 60px;
+    right: 15px;
+    background: rgba(20, 20, 20, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    max-height: 0;
+    width: 250px;
+    overflow: hidden;
+    flex-direction: column;
+    transition: max-height 0.3s ease;
+  }
+  #navbar.show { max-height: 500px; overflow-y: auto; }
+
+  #navbar a {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  #navbar a:last-child { border-bottom: none; }
+
+  .dropdown-content {
+    position: static;
+    display: none;
+    background: rgba(30, 30, 30, 0.9);
+    border-radius: 8px;
+    margin-top: 5px;
+  }
+  .dropdown.active .dropdown-content { display: block; }
+}
+
+    @media (max-width: 768px) {
+  /* Hide navbar by default */
+  #navbar {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Show navbar when hamburger clicked */
+  #navbar.show {
+    display: flex;
+  }
+
+  /* Dropdown content hidden by default */
+  .navbar .dropdown .dropdown-content {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  /* Show dropdown when parent has 'open' */
+  .navbar .dropdown.open .dropdown-content {
+    display: flex;
+  }
+
+  /* Make dropdown links full width for mobile */
+  .dropdown .dropdown-content a {
+    display: block;
+    padding-left: 15px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
     .grid {
       display: grid;
       gap: 2rem;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      align-items: stretch;
     }
 
     @keyframes gradientMove {
@@ -225,7 +350,9 @@
       cursor: pointer;
       overflow: hidden;
       transition: transform 0.25s ease, box-shadow 0.3s ease;
+      height: 100%;
     }
+
     .card:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
@@ -242,11 +369,28 @@
     }
     body.dark .card-inner { background: #1e293b; }
 
+    .card h3 { font-size: 1.1rem; margin-bottom: 0.6rem; }
+    .card p {
+      font-size: 0.9rem;
+      color: #475569;
+      margin-bottom: 1.5rem;
+      line-height: 1.4;
+    }
+    body.dark .card p { color: #cbd5e1; }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+    body.dark .card-footer { color: #94a3b8; }
+
     .overlay {
       position: fixed;
       inset: 0;
       background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(6px);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -258,7 +402,8 @@
     .overlay.active { opacity: 1; pointer-events: auto; }
 
     .modal {
-      background: rgba(255, 255, 255, 0.75);
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(0, 0, 0, 0.1);
       border-radius: 1rem;
       max-width: 520px;
       width: 90%;
@@ -266,15 +411,65 @@
       transform: scale(0.9);
       opacity: 0;
       position: relative;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-      border: 1px solid rgba(150, 180, 255, 0.3);
-      backdrop-filter: blur(20px) saturate(140%);
-      transition: all 0.3s ease;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(18px);
     }
     body.dark .modal {
       background: rgba(30, 41, 59, 0.7);
-      border: 1px solid rgba(100, 150, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
+
+    .close-btn {
+      position: absolute;
+      top: 0.8rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      color: #475569;
+      cursor: pointer;
+    }
+    body.dark .close-btn { color: #cbd5e1; }
+
+    .modal h3 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+
+    .modal p { color: #475569; line-height: 1.6; margin-bottom: 1.2rem; }
+    body.dark .modal p { color: #e2e8f0; }
+
+    .modal small {
+      display: block;
+      margin-bottom: 2rem;
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+    body.dark .modal small { color: #94a3b8; }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.6rem 1rem;
+      font-size: 0.9rem;
+      border-radius: 0.4rem;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.25s ease;
+    }
+
+    .btn.primary { background: #3b82f6; color: #fff; }
+    .btn.primary:hover { background: #2563eb; }
+    .btn.secondary { background: #e2e8f0; color: #1e293b; }
+    .btn.secondary:hover { background: #cbd5e1; }
+    body.dark .btn.secondary { background: #334155; color: #f8fafc; }
+    .btn.disabled { background: #cbd5e1; color: #475569; cursor: not-allowed; }
+    body.dark .btn.disabled { background: #475569; color: #cbd5e1; }
 
     #themeToggle {
       position: fixed;
@@ -289,57 +484,55 @@
       font-size: 1.3rem;
       cursor: pointer;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+      z-index: 100;
       transition: background 0.3s ease;
     }
     #themeToggle:hover { background: #2563eb; }
   </style>
 </head>
 
-<body>
-  <header>
-    <div class="brand">
-      <img src="062325.png" alt="Profile" />
-      <strong>Mohammad Mujahid</strong>
-    </div>
-
-    <div class="hamburger" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </div>
-
-    <nav id="navbar" class="navbar">
-      <a href="./index.html">Home</a>
-      <a href="./index.html#about">About</a>
-      <a href="./index.html#experience">Experience</a>
-      <a href="./index.html#skills">Skills</a>
-      <a href="./index.html#contact">Contact</a>
-
-      <div class="dropdown">
-        <a href="#">More ▾</a>
-        <div class="dropdown-content">
-          <a href="./Mujahid.Accenture.OTC.pdf" target="_blank">Download Resume</a>
-          <a href="./GallupStrenght.html">Gallup Strengths</a>
-          <a href="./Certifications.html">Achievements</a>
-          <a href="./index.html#projects">Projects</a>
-          <a href="./index.html#blogs">Blogs</a>
-          <a href="./index.html#interests">Interests</a>
-        </div>
-      </div>
-    </nav>
-  </header>
-
-  <div class="intro-center">
-    <h2 class="title"><span>Certifications & Credentials</span></h2>
+<header>
+  <div class="brand">
+    <img src="062325.png" alt="Profile" />
+    <strong>Mohammad Mujahid</strong>
   </div>
 
+  <div class="hamburger" aria-label="Menu" aria-expanded="false" role="button" tabindex="0">
+    <span></span><span></span><span></span>
+  </div>
+
+  <nav id="navbar" class="navbar">
+    <a href="./index.html">Home</a>
+    <a href="./index.html#about">About</a>
+    <a href="./index.html#experience">Experience</a>
+    <a href="./index.html#skills">Skills</a>
+    <a href="./index.html#contact">Contact</a>
+
+    <div class="dropdown">
+      <a href="#" class="dropbtn" aria-haspopup="true" aria-expanded="false">More ▾</a>
+      <div class="dropdown-content">
+        <a href="./Mujahid.Accenture.OTC.pdf" target="_blank" rel="noopener">Download Resume</a>
+        <a href="./GallupStrenght.html">Gallup Strengths</a>
+        <a href="./Certifications.html">Achievements</a>
+        <a href="./index.html#projects">Projects</a>
+        <a href="./index.html#blogs">Blogs</a>
+        <a href="./index.html#interests">Interests</a>
+      </div>
+    </div>
+  </nav>
+</header>
+  
+<div class="intro-center">
+  <h2 class="title"><span>Certifications & Credentials</span></h2>
+</div>
+
   <section>
-    <p class="subtitle">
-      Verified learning and professional credentials from ICMAI, Accenture, Skillsoft, and more.
-    </p>
+    <p class="subtitle">Verified learning and professional credentials from ICMAI, Accenture, Skillsoft, and more.</p>
     <div class="grid" id="certGrid"></div>
 
     <div class="overlay" id="overlay">
       <div class="modal" id="modal">
-        <button id="closeBtn" style="position:absolute;top:10px;right:15px;background:none;border:none;font-size:1.4rem;cursor:pointer;">×</button>
+        <button class="close-btn" id="closeBtn">&times;</button>
         <h3 id="modalTitle"></h3>
         <p id="modalDescription"></p>
         <small id="modalDetails"></small>
@@ -354,36 +547,93 @@
 
   <button id="themeToggle">🌙</button>
 
-  <script>
-    const header = document.querySelector("header");
-    window.addEventListener("scroll", () => {
-      header.classList.toggle("scrolled", window.scrollY > 20);
-    });
 
-    const hamburger = document.querySelector(".hamburger");
-    const navbar = document.getElementById("navbar");
-    hamburger.addEventListener("click", () => {
-      hamburger.classList.toggle("active");
-      navbar.classList.toggle("show");
-    });
 
-    document.querySelectorAll(".dropdown > a").forEach(btn => {
-      btn.addEventListener("click", e => {
-        if (window.innerWidth <= 768) {
-          e.preventDefault();
-          btn.parentElement.classList.toggle("active");
-        }
+
+    <script>
+  const hamburger = document.querySelector('.hamburger');
+const navbar = document.getElementById('navbar');
+
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  navbar.classList.toggle('show');
+});
+</script>
+    <script>
+  function toggleDetails(btn) {
+    const details = btn.nextElementSibling;
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    if (!details) return;
+
+    if (!open) {
+      if (details.hasAttribute('hidden')) details.removeAttribute('hidden');
+      details.style.maxHeight = details.scrollHeight + 'px';
+      details.style.paddingTop = '8px';
+      btn.setAttribute('aria-expanded', 'true');
+      btn.textContent = 'Hide Details ▴';
+      details.addEventListener('transitionend', function onEnd() {
+        details.style.maxHeight = 'none';
+        details.removeEventListener('transitionend', onEnd);
       });
-    });
+    } else {
+      const h = details.scrollHeight;
+      details.style.maxHeight = h + 'px';
+      requestAnimationFrame(() => {
+        details.style.maxHeight = '0px';
+        details.style.paddingTop = '0px';
+      });
+      btn.setAttribute('aria-expanded', 'false');
+      btn.textContent = 'View Details ▾';
+      details.addEventListener('transitionend', function onEnd() {
+        details.setAttribute('hidden', '');
+        details.removeEventListener('transitionend', onEnd);
+      });
+    }
+  }
 
+  // Optional: Disable scroll fade-in on small screens to avoid jank
+  if (window.matchMedia("(max-width: 768px)").matches) {
+    document.querySelectorAll('.timeline-content').forEach(el => {
+      el.style.opacity = 1;
+      el.style.transform = "none";
+    });
+  }
+</script>
+    <script>
+document.querySelectorAll('.dropdown > .dropbtn').forEach(btn => {
+  btn.addEventListener('click', e => {
+    if (window.innerWidth <= 768) { // mobile only
+      e.preventDefault(); // stop navigation
+      const parent = btn.parentElement;
+
+      // Optional: close other dropdowns
+      document.querySelectorAll('.dropdown').forEach(d => {
+        if (d !== parent) d.classList.remove('open');
+      });
+
+      parent.classList.toggle('open'); // toggle current dropdown
+    }
+  });
+});
+</script>
+
+
+
+
+
+  
+
+  <script>
     gsap.registerPlugin(ScrollTrigger);
+
     const CERTIFICATIONS = [
-      { title:"Soft Skills & Communication Mastery", issuer:"ICMAI", date:"Mar 2025", hasCredential:true, credentialUrl:"#", from:"#3b82f6", to:"#6366f1", description:"Professional development in communication, etiquette, and presentation excellence."},
-      { title:"QuickBooks & Zoho Accounting ERPs", issuer:"Talib Prime", date:"Jan 2025", hasCredential:false, credentialUrl:"#", from:"#22c55e", to:"#10b981", description:"Hands-on ERP training to manage transactions, reconciliations, and financial reporting."},
+      { title:"Soft Skills & Communication Mastery", issuer:"ICMAI", date:"Mar 2025", hasCredential:true, credentialUrl:"#", from:"#3b82f6", to:"#6366f1", description:"Professional development program covering business communication, etiquette, and presentation excellence."},
+      { title:"QuickBooks & Zoho Accounting ERPs", issuer:"Talib Prime", date:"Jan 2025", hasCredential:false, credentialUrl:"#", from:"#22c55e", to:"#10b981", description:"Hands-on accounting ERP course — learned to record transactions, reconcile accounts, and generate reports."},
       { title:"E-Filing (Income Tax) Practical Training", issuer:"Essential Academy", date:"Nov 2024", hasCredential:true, credentialUrl:"#", from:"#f59e0b", to:"#f97316", description:"Comprehensive training on Indian Income Tax e-filing, returns, and compliance."},
-      { title:"Microsoft Office Professional", issuer:"Skillsoft / Pluralsight", date:"Oct 2024", hasCredential:false, credentialUrl:"#", from:"#0ea5e9", to:"#06b6d4", description:"Excel analytics, PowerPoint storytelling, and Word automation expertise."},
-      { title:"Accenture O2C & Financial Process Fundamentals", issuer:"Accenture Internal", date:"Aug 2024", hasCredential:true, credentialUrl:"#", from:"#9333ea", to:"#ec4899", description:"Order-to-Cash certification covering AR, cash application, and collections."},
-      { title:"Power BI for Financial Insights", issuer:"Pluralsight", date:"May 2024", hasCredential:true, credentialUrl:"#", from:"#14b8a6", to:"#06b6d4", description:"Built dashboards and data stories using Power BI for real business insights."}
+      { title:"Microsoft Office Professional", issuer:"Skillsoft / Pluralsight", date:"Oct 2024", hasCredential:false, credentialUrl:"#", from:"#0ea5e9", to:"#06b6d4", description:"Productivity suite mastery — Excel analytics, PowerPoint storytelling, and Word document automation."},
+      { title:"Accenture O2C & Financial Process Fundamentals", issuer:"Accenture Internal Training", date:"Aug 2024", hasCredential:true, credentialUrl:"#", from:"#9333ea", to:"#ec4899", description:"Practical Order-to-Cash certification covering AR, cash application, disputes, and collections lifecycle."},
+      { title:"Power BI for Financial Insights", issuer:"Pluralsight", date:"May 2024", hasCredential:true, credentialUrl:"#", from:"#14b8a6", to:"#06b6d4", description:"Built dashboards and visual reports using real O2C data, improving data storytelling and analysis."},
+      { title:"30+ Micro Certifications (Skillsoft, Essential, Accenture)", issuer:"Various Platforms", date:"2023–2025", hasCredential:false, credentialUrl:"#", from:"#6b7280", to:"#475569", description:"Completed a range of micro-courses across business, technology, and productivity domains."}
     ];
 
     const grid = document.getElementById("certGrid");
@@ -427,7 +677,6 @@
       modalTitle.textContent = cert.title;
       modalDescription.textContent = cert.description;
       modalDetails.textContent = `Issuer: ${cert.issuer} | Date: ${cert.date}`;
-
       if (cert.hasCredential) {
         viewBtn.style.display = "inline-flex";
         disabledBtn.style.display = "none";
@@ -444,27 +693,15 @@
       };
 
       overlay.classList.add("active");
-      gsap.fromTo(
-        modal,
-        { scale: 0.85, opacity: 0, y: -30 },
-        { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.8)" }
-      );
+      gsap.fromTo(modal, { scale: 0.8, opacity: 0, y: -30 }, { scale: 1, opacity: 1, y: 0, duration: 0.35, ease: "back.out(1.8)" });
     }
 
     closeBtn.onclick = closeModal;
     overlay.onclick = e => { if (e.target === overlay) closeModal(); };
-
     function closeModal() {
-      gsap.to(modal, {
-        scale: 0.85,
-        opacity: 0,
-        duration: 0.25,
-        ease: "power1.inOut",
-        onComplete: () => overlay.classList.remove("active")
-      });
+      gsap.to(modal, { scale: 0.85, opacity: 0, duration: 0.25, onComplete: () => overlay.classList.remove("active") });
     }
 
-    // Theme toggle
     themeToggle.addEventListener("click", () => {
       document.body.classList.toggle("dark");
       themeToggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
@@ -473,3 +710,8 @@
 </body>
 </html>
 
+
+In this can will you be able to change the color of the navigation bar because I can't see anything in my certifications portfolio and certifications and credentials are not centered.And this navigation bar should be at the top. It has come down.
+
+
+The code which you gave it's not working fine. I want the navigation HTML what I gave that only. You don't have to change. And certifications and credentials and verified learning and professional credential from ICMEI, Accenture Skills and more it's working but down below I don't see anything here. It's blank.
