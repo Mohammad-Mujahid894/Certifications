@@ -99,7 +99,7 @@ header h2::after {
 
     
 
-    header {
+
 header {
   position: fixed;
   top: 0;
@@ -737,5 +737,16 @@ document.querySelectorAll('.dropdown > .dropbtn').forEach(btn => {
       themeToggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
     });
   </script>
+  <script>
+window.addEventListener("scroll", () => {
+  const header = document.querySelector("header");
+  if (window.scrollY > 30) {
+    header.style.background = "rgba(120,120,120,0.65)";
+  } else {
+    header.style.background = "rgba(160,160,160,0.5)";
+  }
+});
+</script>
+
 </body>
 </html>
