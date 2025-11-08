@@ -871,8 +871,98 @@ function openModal(cert) {
     ease: "power2.out"
   });
 }
+// 🧩 Close modal properly on click outside or X
+// 🧩 Modal Close Logic — works for desktop + mobile + back button
+const closeBtn = document.getElementById("closeBtn");
+const overlay = document.getElementById("overlay");
+const modal = document.getElementById("modal");
+
+function closeModal() {
+gsap.to(modal, {
+  y: 50,
+  opacity: 0,
+  duration: 0.3,
+  ease: "power3.inOut",
+  onComplete: () => {
+    overlay.classList.remove("active");
+    history.replaceState(null, "", location.pathname);
+  }
+});
+
+}
+
+// Close on ❌ button
+closeBtn.addEventListener("click", closeModal);
+
+// Close when clicking outside the modal (on the overlay)
+overlay.addEventListener("click", (e) => {
+  if (e.target === overlay) closeModal();
+});
+
+// Close with ESC key
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && overlay.classList.contains("active")) {
+    closeModal();
+  }
+});
+
+// ✅ Mobile back button support
+window.addEventListener("popstate", () => {
+  if (overlay.classList.contains("active")) {
+    closeModal();
+  }
+});
+
+// When modal opens, push a new history state (so back works)
+function openModal(cert) {
+  modalTitle.innerHTML = `
+    <div class="title-with-icon" style="display: flex; align-items: center; gap: 8px; margin-bottom: 0.8rem;">
+      <i data-lucide="award"></i>
+      <span>${cert.title}</span>
+    </div>
+  `;
+
+  modalDescription.textContent = cert.description;
+  modalDetails.textContent = \`Issuer: \${cert.issuer} | Date: \${cert.date}\`;
+
+  if (cert.hasCredential) {
+    viewBtn.style.display = "inline-flex";
+    disabledBtn.style.display = "none";
+    viewBtn.onclick = () => window.open(cert.credentialUrl, "_blank");
+  } else {
+    viewBtn.style.display = "none";
+    disabledBtn.style.display = "inline-flex";
+  }
+
+  copyBtn.onclick = () => {
+    navigator.clipboard.writeText(cert.title);
+    copyBtn.textContent = "Copied!";
+    setTimeout(() => (copyBtn.textContent = "Copy Title"), 1500);
+  };
+
+  overlay.classList.add("active");
+  lucide.createIcons();
+
+  // Push state for back button support
+  history.pushState({ modalOpen: true }, "", "#modal");
+
+  gsap.fromTo(
+    modal,
+    { scale: 0.8, opacity: 0, y: -30 },
+    { scale: 1, opacity: 1, y: 0, duration: 0.35, ease: "back.out(1.8)" }
+  );
+
+  gsap.from(".modal .title-with-icon [data-lucide='award']", {
+    opacity: 0,
+    y: -10,
+    duration: 0.4,
+    ease: "power2.out"
+  });
+}
 
 
+
+    
     themeToggle.addEventListener("click", () => {
       document.body.classList.toggle("dark");
       themeToggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
