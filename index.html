@@ -10,23 +10,34 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
   <style>
+    :root{
+      --glass-light: rgba(255,255,255,0.72);
+      --glass-dark: rgba(18,25,40,0.64);
+      --nav-text-light: #0f172a;
+      --nav-text-dark: #e2e8f0;
+      --accent-g1: #7aa2ff; /* galaxy gradient */
+      --accent-g2: #8a7aff;
+      --accent-g3: #4ff0b0;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html,body { height: 100%; }
     body {
       font-family: "Inter", sans-serif;
       min-height: 100vh;
       background: linear-gradient(to bottom, #f8fafc, #ffffff);
       color: #1e293b;
-      transition: background 0.5s ease, color 0.5s ease;
+      transition: background 0.45s ease, color 0.45s ease;
     }
     body.dark {
       background: linear-gradient(to bottom, #0f172a, #1e293b);
       color: #e2e8f0;
     }
 
-    /* === NAVBAR === */
+    /* ---------------------- NAV (keeps your HTML) ---------------------- */
     header {
       position: fixed;
-      top: 0;
+      top: 0;               /* ensure at very top */
       left: 50%;
       transform: translateX(-50%);
       width: 95%;
@@ -35,20 +46,25 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      backdrop-filter: blur(16px) saturate(180%);
-      background: rgba(255, 255, 255, 0.55);
+      box-sizing: border-box;
+      backdrop-filter: blur(14px) saturate(140%);
+      background: var(--glass-light); /* light-mode default */
       border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 8px 28px rgba(12, 24, 40, 0.08);
       z-index: 1000;
-      transition: background 0.4s ease, border 0.4s ease;
+      transition: background 0.35s ease, color 0.35s ease, border 0.35s ease;
     }
+    /* adapt the glass for dark mode */
     body.dark header {
-      background: rgba(15, 23, 42, 0.55);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: var(--glass-dark);
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.45);
     }
 
+    /* Brand (kept same) */
     header .brand {
+      flex: 1;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -58,66 +74,125 @@
       height: 40px;
       border-radius: 8px;
       object-fit: cover;
+      display: block;
     }
     header .brand strong {
       font-size: 18px;
-      color: #1e293b;
+      font-weight: 700;
+      color: var(--nav-text-light);
     }
-    body.dark header .brand strong { color: #e2e8f0; }
+    body.dark header .brand strong { color: var(--nav-text-dark); }
 
+    /* NAV LINKS (colors adapted for both modes) */
     #navbar {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 18px;
     }
     #navbar a {
-      color: #1e293b;
+      color: var(--nav-text-light);
       text-decoration: none;
       font-weight: 600;
       padding: 8px 12px;
       border-radius: 12px;
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
     }
     #navbar a:hover {
-      background: rgba(0, 0, 0, 0.05);
+      background: rgba(0,0,0,0.04);
+      color: var(--nav-text-light);
     }
     body.dark #navbar a {
-      color: #e2e8f0;
+      color: var(--nav-text-dark);
     }
     body.dark #navbar a:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255,255,255,0.06);
     }
 
-    /* === HEADING === */
+    /* hamburger stays the same */
+    .hamburger {
+      display: none; /* hidden desktop by default */
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      z-index: 1101;
+    }
+    .hamburger span {
+      height: 3px;
+      width: 25px;
+      background: var(--nav-text-light);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+    body.dark .hamburger span { background: var(--nav-text-dark); }
+
+    /* dropdown content */
+    .dropdown { position: relative; }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      min-width: 200px;
+      background: rgba(20,20,20,0.95);
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+      flex-direction: column;
+      z-index: 2000;
+    }
+    .dropdown-content a { color: #fff; padding: 10px 14px; display:block; text-decoration:none; }
+    .dropdown-content a:hover { background: rgba(122,162,255,0.12); }
+
+    @media (hover: hover) and (pointer: fine) {
+      .dropdown:hover .dropdown-content { display: flex; }
+    }
+
+    /* MOBILE adjustments */
+    @media (max-width: 880px) {
+      header { padding: 10px 14px; left: 0; transform: none; width: 100%; border-radius: 0; }
+      .hamburger { display: flex; }
+      #navbar { display: none; position: absolute; top: calc(100% + 8px); right: 12px; background: rgba(255,255,255,0.96); border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); flex-direction: column; width: 220px; overflow: hidden; }
+      body.dark #navbar { background: rgba(20,20,20,0.92); }
+      #navbar.show { display: flex; }
+      #navbar a { color: #0f172a; }
+      body.dark #navbar a { color: #e2e8f0; }
+    }
+
+    /* ---------------------- HEADING ---------------------- */
     .intro-center {
       text-align: center;
-      margin-top: 130px; /* sits below navbar */
-      margin-bottom: 1rem;
+      margin-top: 100px; /* baseline; will be corrected by JS to match header height */
+      margin-bottom: 8px;
     }
     .intro-center .title span {
-      background: linear-gradient(90deg, #7aa2ff, #8a7aff, #4ff0b0);
+      background: linear-gradient(90deg, var(--accent-g1), var(--accent-g2), var(--accent-g3));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      font-size: 2.6rem;
+      font-size: clamp(1.8rem, 4.5vw, 2.6rem);
       font-weight: 700;
+      display: inline-block;
     }
 
-    p.subtitle {
-      text-align: center;
+    /* subtitle */
+    .subtitle{
+      text-align:center;
       color: #64748b;
-      margin-bottom: 3rem;
+      max-width: 900px;
+      margin: 0.5rem auto 2rem;
     }
-    body.dark p.subtitle { color: #94a3b8; }
+    body.dark .subtitle { color: #94a3b8; }
 
-    /* === GRID === */
+    /* ---------------------- GRID / CARDS ---------------------- */
     .grid {
       display: grid;
-      gap: 2rem;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.75rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       align-items: stretch;
       max-width: 1100px;
       margin: 0 auto;
-      padding: 0 1rem 4rem;
+      padding: 0 18px 56px;
     }
 
     @keyframes gradientMove {
@@ -127,193 +202,184 @@
     }
 
     .card {
-      border-radius: 1rem;
+      border-radius: 12px;
       padding: 1px;
       background: linear-gradient(270deg, var(--from), var(--to), var(--from));
       background-size: 300% 300%;
       animation: gradientMove 6s ease infinite;
-      cursor: pointer;
       overflow: hidden;
-      transition: transform 0.25s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
       height: 100%;
     }
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+
     .card-inner {
       background: white;
-      border-radius: 1rem;
-      padding: 1.5rem;
+      border-radius: 12px;
+      padding: 18px;
       height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
     }
-    body.dark .card-inner { background: #1e293b; }
+    body.dark .card-inner { background: #0f172a; color: #e2e8f0; }
 
-    .card h3 { font-size: 1.1rem; margin-bottom: 0.6rem; }
-    .card p {
-      font-size: 0.9rem;
-      color: #475569;
-      margin-bottom: 1.5rem;
-      line-height: 1.4;
-    }
+    .card h3 { font-size: 1.05rem; margin-bottom: 8px; color: #0f172a; }
+    body.dark .card h3 { color: #e2e8f0; }
+    .card p { color: #475569; font-size: 0.92rem; line-height:1.45; margin-bottom: 12px; }
     body.dark .card p { color: #cbd5e1; }
 
-    .card-footer {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.85rem;
-      color: #64748b;
-    }
+    .card-footer { display:flex; justify-content:space-between; color: #64748b; font-size:0.86rem; }
     body.dark .card-footer { color: #94a3b8; }
 
-    /* === MODAL === */
+    /* ---------------------- MODAL / OVERLAY (unchanged) ---------------------- */
     .overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(6px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.4s ease;
-      z-index: 50;
+      background: rgba(15,23,42,0.55);
+      backdrop-filter: blur(8px);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      opacity:0;
+      pointer-events:none;
+      transition: opacity 0.25s ease;
+      z-index: 1200;
     }
-    .overlay.active { opacity: 1; pointer-events: auto; }
+    .overlay.active { opacity:1; pointer-events:auto; }
 
     .modal {
-      background: rgba(255, 255, 255, 0.8);
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      border-radius: 1rem;
-      max-width: 520px;
-      width: 90%;
-      padding: 2.5rem;
-      transform: scale(0.9);
+      width: 92%;
+      max-width: 540px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.92);
+      padding: 22px;
+      box-shadow: 0 20px 40px rgba(8,12,20,0.12);
+      transform: scale(0.96);
       opacity: 0;
-      position: relative;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-      backdrop-filter: blur(18px);
+      transition: all 0.28s cubic-bezier(.2,.9,.18,1);
+      backdrop-filter: blur(12px);
     }
-    body.dark .modal {
-      background: rgba(30, 41, 59, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
+    body.dark .modal { background: rgba(18,22,30,0.84); color: #e7eefc; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
 
-    .close-btn {
-      position: absolute;
-      top: 0.8rem;
-      right: 1rem;
-      background: none;
-      border: none;
-      font-size: 1.4rem;
-      color: #475569;
-      cursor: pointer;
-    }
-    body.dark .close-btn { color: #cbd5e1; }
-
-    .modal h3 {
-      font-size: 1.6rem;
-      font-weight: 600;
-      margin-bottom: 0.8rem;
-    }
-
-    .modal p { color: #475569; line-height: 1.6; margin-bottom: 1.2rem; }
-    body.dark .modal p { color: #e2e8f0; }
-
-    .modal small {
-      display: block;
-      margin-bottom: 2rem;
-      color: #64748b;
-      font-size: 0.9rem;
-    }
+    .modal h3 { margin:0 0 8px 0; font-size:1.4rem; }
+    .modal p { margin:0 0 12px 0; color:#334155; }
+    body.dark .modal p { color: #dbeafe; }
+    .modal small { display:block; color: #64748b; margin-bottom:12px; }
     body.dark .modal small { color: #94a3b8; }
+    .actions { display:flex; gap:10px; flex-wrap:wrap; }
 
-    .actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .btn{ padding:8px 12px; border-radius:8px; border:none; cursor:pointer; font-weight:600; }
+    .btn.primary{ background:#3b82f6; color:#fff; }
+    .btn.secondary{ background:#e2e8f0; color:#0f172a; }
+    .btn.disabled{ background:#cbd5e1; color:#475569; cursor:not-allowed; }
 
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.6rem 1rem;
-      font-size: 0.9rem;
-      border-radius: 0.4rem;
-      border: none;
-      cursor: pointer;
-      font-weight: 500;
-      transition: all 0.25s ease;
-    }
-    .btn.primary { background: #3b82f6; color: #fff; }
-    .btn.primary:hover { background: #2563eb; }
-    .btn.secondary { background: #e2e8f0; color: #1e293b; }
-    .btn.secondary:hover { background: #cbd5e1; }
-    body.dark .btn.secondary { background: #334155; color: #f8fafc; }
-    .btn.disabled { background: #cbd5e1; color: #475569; cursor: not-allowed; }
-    body.dark .btn.disabled { background: #475569; color: #cbd5e1; }
-
+    /* theme toggle */
     #themeToggle {
       position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      border: none;
-      background: #3b82f6;
-      color: #fff;
-      font-size: 1.3rem;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-      z-index: 100;
-      transition: background 0.3s ease;
+      bottom: 18px;
+      right: 18px;
+      width:44px; height:44px;
+      border-radius:50%;
+      border:none;
+      background: linear-gradient(135deg,#6ea8ff,#6b5cff);
+      color:white;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: 0 8px 20px rgba(12,24,60,0.12);
+      z-index:1300;
     }
-    #themeToggle:hover { background: #2563eb; }
+
+    /* small helpers */
+    .hidden { display:none !important; }
   </style>
 </head>
-
 <body class="light">
+  <!-- NAVBAR (your HTML kept exactly) -->
   <header>
     <div class="brand">
       <img src="062325.png" alt="Profile" />
       <strong>Mohammad Mujahid</strong>
     </div>
 
-    <nav id="navbar">
+    <div class="hamburger" aria-label="Menu" aria-expanded="false" role="button" tabindex="0">
+      <span></span><span></span><span></span>
+    </div>
+
+    <nav id="navbar" class="navbar">
       <a href="./index.html">Home</a>
       <a href="./index.html#about">About</a>
       <a href="./index.html#experience">Experience</a>
       <a href="./index.html#skills">Skills</a>
       <a href="./index.html#contact">Contact</a>
-      <a href="./Certifications.html" style="color:#4ff0b0;">Certifications</a>
+
+      <div class="dropdown">
+        <a href="#" class="dropbtn" aria-haspopup="true" aria-expanded="false">More ▾</a>
+        <div class="dropdown-content">
+          <a href="./Mujahid.Accenture.OTC.pdf" target="_blank" rel="noopener">Download Resume</a>
+          <a href="./GallupStrenght.html">Gallup Strengths</a>
+          <a href="./Certifications.html">Achievements</a>
+          <a href="./index.html#projects">Projects</a>
+          <a href="./index.html#blogs">Blogs</a>
+          <a href="./index.html#interests">Interests</a>
+        </div>
+      </div>
     </nav>
   </header>
 
-  <div class="intro-center">
+  <!-- heading (centered under top nav) -->
+  <div class="intro-center" id="introCenter">
     <h2 class="title"><span>Certifications & Credentials</span></h2>
   </div>
 
   <p class="subtitle">Verified learning and professional credentials from ICMAI, Accenture, Skillsoft, and more.</p>
+
+  <!-- Grid -->
   <div class="grid" id="certGrid"></div>
 
+  <!-- Modal -->
   <div class="overlay" id="overlay">
     <div class="modal" id="modal">
-      <button class="close-btn" id="closeBtn">&times;</button>
+      <button class="close-btn" id="closeBtn" aria-label="close">✕</button>
       <h3 id="modalTitle"></h3>
       <p id="modalDescription"></p>
       <small id="modalDetails"></small>
       <div class="actions">
-        <button id="viewBtn" class="btn primary">🔗 View Credential</button>
-        <button id="disabledBtn" class="btn disabled">🚫 Credential Not Available</button>
+        <button id="viewBtn" class="btn primary">View Credential</button>
+        <button id="disabledBtn" class="btn disabled">Credential Not Available</button>
         <button id="copyBtn" class="btn secondary">Copy Title</button>
       </div>
     </div>
   </div>
 
-  <button id="themeToggle">🌙</button>
+  <button id="themeToggle" aria-label="toggle theme">🌙</button>
 
+  <!-- keep your hamburger script -->
+  <script>
+    const hamburger = document.querySelector('.hamburger');
+    const navbar = document.getElementById('navbar');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navbar.classList.toggle('show');
+    });
+
+    // dropdown mobile toggle
+    document.querySelectorAll('.dropdown > .dropbtn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        if (window.innerWidth <= 880) {
+          e.preventDefault();
+          const parent = btn.parentElement;
+          document.querySelectorAll('.dropdown').forEach(d => { if (d !== parent) d.classList.remove('open'); });
+          parent.classList.toggle('open');
+        }
+      });
+    });
+  </script>
+
+  <!-- main app script (cards, modal, theme) -->
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
@@ -339,7 +405,8 @@
     const disabledBtn = document.getElementById("disabledBtn");
     const themeToggle = document.getElementById("themeToggle");
 
-    CERTIFICATIONS.forEach(cert => {
+    // render cards
+    CERTIFICATIONS.forEach((cert, i) => {
       const div = document.createElement("div");
       div.className = "card";
       div.style.setProperty("--from", cert.from);
@@ -358,17 +425,20 @@
       div.addEventListener("click", () => openModal(cert));
       grid.appendChild(div);
 
+      // entrance animation
       gsap.from(div, {
         scrollTrigger: { trigger: div, start: "top 85%" },
-        opacity: 0, y: 40, duration: 0.6, ease: "power2.out"
+        opacity: 0, y: 30, duration: 0.55, ease: "power2.out", delay: i * 0.03
       });
     });
 
-    function openModal(cert) {
+    // modal
+    function openModal(cert){
       modalTitle.textContent = cert.title;
       modalDescription.textContent = cert.description;
-      modalDetails.textContent = `Issuer: ${cert.issuer} | Date: ${cert.date}`;
-      if (cert.hasCredential) {
+      modalDetails.textContent = `Issuer: ${cert.issuer} • Date: ${cert.date}`;
+
+      if(cert.hasCredential){
         viewBtn.style.display = "inline-flex";
         disabledBtn.style.display = "none";
         viewBtn.onclick = () => window.open(cert.credentialUrl, "_blank");
@@ -380,23 +450,49 @@
       copyBtn.onclick = () => {
         navigator.clipboard.writeText(cert.title);
         copyBtn.textContent = "Copied!";
-        setTimeout(() => (copyBtn.textContent = "Copy Title"), 1500);
+        setTimeout(()=> copyBtn.textContent = "Copy Title", 1400);
       };
 
       overlay.classList.add("active");
-      gsap.fromTo(modal, { scale: 0.8, opacity: 0, y: -30 }, { scale: 1, opacity: 1, y: 0, duration: 0.35, ease: "back.out(1.8)" });
+      gsap.fromTo(modal, { scale:0.92, opacity:0, y:-20 }, { scale:1, opacity:1, y:0, duration:0.36, ease:"back.out(1.6)" });
     }
 
     closeBtn.onclick = closeModal;
-    overlay.onclick = e => { if (e.target === overlay) closeModal(); };
-    function closeModal() {
-      gsap.to(modal, { scale: 0.85, opacity: 0, duration: 0.25, onComplete: () => overlay.classList.remove("active") });
+    overlay.onclick = (e) => { if(e.target === overlay) closeModal(); };
+    function closeModal(){
+      gsap.to(modal, { scale:0.95, opacity:0, duration:0.22, onComplete: ()=> overlay.classList.remove("active") });
     }
 
-    themeToggle.addEventListener("click", () => {
-      document.body.classList.toggle("dark");
-      themeToggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+    // theme toggle: switch dark class
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      themeToggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+      // adapt header text color for nav items
+      // (nav link colors are handled by CSS body.dark selectors)
     });
+
+    // Ensure header doesn't overlap content:
+    // compute header height and set top margin for intro and grid padding
+    function adjustContentOffset(){
+      const headerEl = document.querySelector('header');
+      if(!headerEl) return;
+      const h = headerEl.getBoundingClientRect().height;
+      // set top margin for intro-center so heading sits below header
+      const intro = document.getElementById('introCenter') || document.querySelector('.intro-center');
+      if(intro) intro.style.marginTop = (h + 18) + 'px';
+      // also add top padding to grid container to be safe
+      const gridEl = document.getElementById('certGrid');
+      if(gridEl) gridEl.style.paddingTop = '18px';
+      // In case page loads scrolled under header, ensure scroll restoration
+      document.documentElement.style.setProperty('--header-height', h + 'px');
+    }
+
+    // adjust on load and resize
+    window.addEventListener('load', adjustContentOffset);
+    window.addEventListener('resize', adjustContentOffset);
+
+    // initial run (in case)
+    adjustContentOffset();
   </script>
 </body>
 </html>
