@@ -23,34 +23,83 @@
       color: #e2e8f0;
     }
 
+    /* === NAVBAR === */
     header {
-      text-align: center;
-      margin-top: 3rem;
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 95%;
+      max-width: 1100px;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(16px) saturate(180%);
+      background: rgba(255, 255, 255, 0.55);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      z-index: 1000;
+      transition: background 0.4s ease, border 0.4s ease;
+    }
+    body.dark header {
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-   header h2 {
-  font-size: 2.6rem;
-  font-weight: 700;
-  background: linear-gradient(90deg, #7aa2ff, #8a7aff, #4ff0b0);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
-  position: relative;
-}
-header h2::after {
-  content: "";
-  display: block;
-  width: 90px;
-  height: 3px;
-  background: linear-gradient(90deg, #7aa2ff, #8a7aff, #4ff0b0);
-  margin: 0.5rem auto 0;
-  border-radius: 2px;
-}
+    header .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    header .brand img {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+    header .brand strong {
+      font-size: 18px;
+      color: #1e293b;
+    }
+    body.dark header .brand strong { color: #e2e8f0; }
 
-    section {
-      padding: 2rem 1rem 4rem;
-      max-width: 1100px;
-      margin: auto;
+    #navbar {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    #navbar a {
+      color: #1e293b;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+    #navbar a:hover {
+      background: rgba(0, 0, 0, 0.05);
+    }
+    body.dark #navbar a {
+      color: #e2e8f0;
+    }
+    body.dark #navbar a:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* === HEADING === */
+    .intro-center {
+      text-align: center;
+      margin-top: 130px; /* sits below navbar */
+      margin-bottom: 1rem;
+    }
+    .intro-center .title span {
+      background: linear-gradient(90deg, #7aa2ff, #8a7aff, #4ff0b0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 2.6rem;
+      font-weight: 700;
     }
 
     p.subtitle {
@@ -60,277 +109,15 @@ header h2::after {
     }
     body.dark p.subtitle { color: #94a3b8; }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-    header {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 95%;
-  max-width: 1100px;
-  padding: 10px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-sizing: border-box;
-  backdrop-filter: saturate(180%) blur(20px);
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  z-index: 1000;
-}
-
-/* Brand */
-header .brand {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-header .brand img {
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  object-fit: cover;
-}
-header .brand strong {
-  font-size: 18px;
-  color: #eaf2ff;
-  white-space: nowrap;
-}
-
-/* ===== NAV ===== */
-#navbar {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-#navbar a {
-  color: #eaf2ff;
-  text-decoration: none;
-  font-weight: 600;
-  padding: 8px 12px;
-  transition: all 0.3s ease;
-}
-#navbar a:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-radius: 14px;
-  color: #fff;
-}
-
-/* ===== DROPDOWN ===== */
-.dropdown {
-  position: relative;
-}
-.dropdown-content {
-  display: none;
-  position: absolute;
-  top: 100%;      /* below button */
-  left: 0;
-  min-width: 200px;
-  background: rgba(20,20,20,0.95);
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.6);
-  flex-direction: column;
-  z-index: 2000;
-}
-.dropdown-content a {
-  display: block;
-  padding: 10px 16px;
-  color: #fff;
-  text-decoration: none;
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
-}
-.dropdown-content a:hover {
-  background: rgba(122, 162, 255, 0.3);
-}
-
-/* Show dropdown on hover (desktop) */
-@media (hover: hover) and (pointer: fine) {
-  .dropdown:hover .dropdown-content {
-    display: flex;
-  }
-}
-
-/* ===== HAMBURGER ===== */
-.hamburger {
-display: flex;
-  flex-direction: column;
-  gap: 6px;
-  cursor: pointer;
-  z-index: 1101;
-}
-.hamburger span {
-  height: 3px;
-  width: 25px;
-  background: white;
-  border-radius: 2px;
-  transition: all 0.3s ease;
-}
-.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-.hamburger.active span:nth-child(2) { opacity: 0; }
-.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-
-/* ===== MOBILE ===== */
-@media (max-width: 768px) {
-  header {
-    left: 0;
-    right: 0;
-    transform: none;
-    width: 100%;
-    padding: 10px 15px;   /* reduce padding to avoid overflow */
-    display: flex;
-    justify-content: space-between; /* brand left, hamburger right */
-    align-items: center;
-    border-radius: 0;
-    box-sizing: border-box;
-  }
-
-  #navbar {
-    position: absolute;
-    top: 60px;
-    right: 15px;
-    background: rgba(20, 20, 20, 0.95);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    max-height: 0;
-    width: 250px;
-    overflow: hidden;
-    flex-direction: column;
-    transition: max-height 0.3s ease;
-  }
-  #navbar.show { max-height: 500px; overflow-y: auto; }
-
-  #navbar a {
-    display: block;
-    width: 100%;
-    padding: 12px 15px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  #navbar a:last-child { border-bottom: none; }
-
-  .dropdown-content {
-    position: static;
-    display: none;
-    background: rgba(30, 30, 30, 0.9);
-    border-radius: 8px;
-    margin-top: 5px;
-  }
-  .dropdown.active .dropdown-content { display: block; }
-}
-
-    @media (max-width: 768px) {
-  /* Hide navbar by default */
-  #navbar {
-    display: none;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  /* Show navbar when hamburger clicked */
-  #navbar.show {
-    display: flex;
-  }
-
-  /* Dropdown content hidden by default */
-  .navbar .dropdown .dropdown-content {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  /* Show dropdown when parent has 'open' */
-  .navbar .dropdown.open .dropdown-content {
-    display: flex;
-  }
-
-  /* Make dropdown links full width for mobile */
-  .dropdown .dropdown-content a {
-    display: block;
-    padding-left: 15px;
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
+    /* === GRID === */
     .grid {
       display: grid;
       gap: 2rem;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       align-items: stretch;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1rem 4rem;
     }
 
     @keyframes gradientMove {
@@ -350,12 +137,10 @@ display: flex;
       transition: transform 0.25s ease, box-shadow 0.3s ease;
       height: 100%;
     }
-
     .card:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     }
-
     .card-inner {
       background: white;
       border-radius: 1rem;
@@ -384,6 +169,7 @@ display: flex;
     }
     body.dark .card-footer { color: #94a3b8; }
 
+    /* === MODAL === */
     .overlay {
       position: fixed;
       inset: 0;
@@ -460,7 +246,6 @@ display: flex;
       font-weight: 500;
       transition: all 0.25s ease;
     }
-
     .btn.primary { background: #3b82f6; color: #fff; }
     .btn.primary:hover { background: #2563eb; }
     .btn.secondary { background: #e2e8f0; color: #1e293b; }
@@ -489,137 +274,45 @@ display: flex;
   </style>
 </head>
 
-<header>
-  <div class="brand">
-    <img src="062325.png" alt="Profile" />
-    <strong>Mohammad Mujahid</strong>
+<body class="light">
+  <header>
+    <div class="brand">
+      <img src="062325.png" alt="Profile" />
+      <strong>Mohammad Mujahid</strong>
+    </div>
+
+    <nav id="navbar">
+      <a href="./index.html">Home</a>
+      <a href="./index.html#about">About</a>
+      <a href="./index.html#experience">Experience</a>
+      <a href="./index.html#skills">Skills</a>
+      <a href="./index.html#contact">Contact</a>
+      <a href="./Certifications.html" style="color:#4ff0b0;">Certifications</a>
+    </nav>
+  </header>
+
+  <div class="intro-center">
+    <h2 class="title"><span>Certifications & Credentials</span></h2>
   </div>
 
-  <div class="hamburger" aria-label="Menu" aria-expanded="false" role="button" tabindex="0">
-    <span></span><span></span><span></span>
+  <p class="subtitle">Verified learning and professional credentials from ICMAI, Accenture, Skillsoft, and more.</p>
+  <div class="grid" id="certGrid"></div>
+
+  <div class="overlay" id="overlay">
+    <div class="modal" id="modal">
+      <button class="close-btn" id="closeBtn">&times;</button>
+      <h3 id="modalTitle"></h3>
+      <p id="modalDescription"></p>
+      <small id="modalDetails"></small>
+      <div class="actions">
+        <button id="viewBtn" class="btn primary">🔗 View Credential</button>
+        <button id="disabledBtn" class="btn disabled">🚫 Credential Not Available</button>
+        <button id="copyBtn" class="btn secondary">Copy Title</button>
+      </div>
+    </div>
   </div>
-
-  <nav id="navbar" class="navbar">
-    <a href="./index.html">Home</a>
-    <a href="./index.html#about">About</a>
-    <a href="./index.html#experience">Experience</a>
-    <a href="./index.html#skills">Skills</a>
-    <a href="./index.html#contact">Contact</a>
-
-    <div class="dropdown">
-      <a href="#" class="dropbtn" aria-haspopup="true" aria-expanded="false">More ▾</a>
-      <div class="dropdown-content">
-        <a href="./Mujahid.Accenture.OTC.pdf" target="_blank" rel="noopener">Download Resume</a>
-        <a href="./GallupStrenght.html">Gallup Strengths</a>
-        <a href="./Certifications.html">Achievements</a>
-        <a href="./index.html#projects">Projects</a>
-        <a href="./index.html#blogs">Blogs</a>
-        <a href="./index.html#interests">Interests</a>
-      </div>
-    </div>
-  </nav>
-</header>
-  
-<div class="intro-center">
-  <h2 class="title"><span>Certifications & Credentials</span></h2>
-</div>
-
-  <section>
-    <p class="subtitle">Verified learning and professional credentials from ICMAI, Accenture, Skillsoft, and more.</p>
-    <div class="grid" id="certGrid"></div>
-
-    <div class="overlay" id="overlay">
-      <div class="modal" id="modal">
-        <button class="close-btn" id="closeBtn">&times;</button>
-        <h3 id="modalTitle"></h3>
-        <p id="modalDescription"></p>
-        <small id="modalDetails"></small>
-        <div class="actions">
-          <button id="viewBtn" class="btn primary">🔗 View Credential</button>
-          <button id="disabledBtn" class="btn disabled">🚫 Credential Not Available</button>
-          <button id="copyBtn" class="btn secondary">Copy Title</button>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <button id="themeToggle">🌙</button>
-
-
-
-
-    <script>
-  const hamburger = document.querySelector('.hamburger');
-const navbar = document.getElementById('navbar');
-
-hamburger.addEventListener('click', () => {
-  hamburger.classList.toggle('active');
-  navbar.classList.toggle('show');
-});
-</script>
-    <script>
-  function toggleDetails(btn) {
-    const details = btn.nextElementSibling;
-    const open = btn.getAttribute('aria-expanded') === 'true';
-    if (!details) return;
-
-    if (!open) {
-      if (details.hasAttribute('hidden')) details.removeAttribute('hidden');
-      details.style.maxHeight = details.scrollHeight + 'px';
-      details.style.paddingTop = '8px';
-      btn.setAttribute('aria-expanded', 'true');
-      btn.textContent = 'Hide Details ▴';
-      details.addEventListener('transitionend', function onEnd() {
-        details.style.maxHeight = 'none';
-        details.removeEventListener('transitionend', onEnd);
-      });
-    } else {
-      const h = details.scrollHeight;
-      details.style.maxHeight = h + 'px';
-      requestAnimationFrame(() => {
-        details.style.maxHeight = '0px';
-        details.style.paddingTop = '0px';
-      });
-      btn.setAttribute('aria-expanded', 'false');
-      btn.textContent = 'View Details ▾';
-      details.addEventListener('transitionend', function onEnd() {
-        details.setAttribute('hidden', '');
-        details.removeEventListener('transitionend', onEnd);
-      });
-    }
-  }
-
-  // Optional: Disable scroll fade-in on small screens to avoid jank
-  if (window.matchMedia("(max-width: 768px)").matches) {
-    document.querySelectorAll('.timeline-content').forEach(el => {
-      el.style.opacity = 1;
-      el.style.transform = "none";
-    });
-  }
-</script>
-    <script>
-document.querySelectorAll('.dropdown > .dropbtn').forEach(btn => {
-  btn.addEventListener('click', e => {
-    if (window.innerWidth <= 768) { // mobile only
-      e.preventDefault(); // stop navigation
-      const parent = btn.parentElement;
-
-      // Optional: close other dropdowns
-      document.querySelectorAll('.dropdown').forEach(d => {
-        if (d !== parent) d.classList.remove('open');
-      });
-
-      parent.classList.toggle('open'); // toggle current dropdown
-    }
-  });
-});
-</script>
-
-
-
-
-
-  
 
   <script>
     gsap.registerPlugin(ScrollTrigger);
@@ -702,8 +395,4 @@ document.querySelectorAll('.dropdown > .dropbtn').forEach(btn => {
 
     themeToggle.addEventListener("click", () => {
       document.body.classList.toggle("dark");
-      themeToggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
-    });
-  </script>
-</body>
-</html>
+      theme
