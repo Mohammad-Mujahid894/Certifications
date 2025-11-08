@@ -241,7 +241,7 @@ header .brand strong {
     left: 0;
     transform: none;
     width: 100%;
-    border-radius: 0; /* 🔥 flat bar on mobile */
+    border-radius: 0;
     padding: 12px 18px;
   }
 
@@ -249,42 +249,49 @@ header .brand strong {
     display: flex !important;
   }
 
-#navbar {
-  display: none;
-  flex-direction: column;
-  position: absolute;
-  top: 58px;
-  right: 12px;
-  background: rgba(50, 50, 50, 0.96);
-  border-radius: 12px;
-  width: 220px;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.35);
-  overflow: hidden;
-  animation: fadeIn 0.25s ease;
-  gap: 0;                /* 🚫 removes vertical gap between items */
-}
-
+  #navbar {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 58px;
+    right: 12px;
+    background: rgba(50, 50, 50, 0.96);
+    border-radius: 12px;
+    width: 220px;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.35);
+    overflow: visible !important;
+    animation: fadeIn 0.25s ease;
+    gap: 0;
+  }
 
   #navbar.show { display: flex; }
 
-#navbar a {
-  padding: 9px 14px;         /* 🔥 even tighter vertical spacing */
-  line-height: 1.35;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  margin: 0;                 /* 🚫 no extra spacing between links */
-}
+  #navbar a {
+    padding: 9px 14px;
+    line-height: 1.35;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin: 0;
+  }
 
   #navbar a:last-child { border-bottom: none; }
 
   .dropdown-content {
-    position: static;
-    background: rgba(60, 60, 60, 0.95);
-    box-shadow: none;
+    position: relative;
+    background: rgba(60, 60, 60, 0.97);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    z-index: 3000;
+    width: 100%;
+    left: 0;
+    top: auto;
+    margin-top: 2px;
+    border-radius: 10px;
+    overflow: visible;
   }
 
-  /* FIXED: dropdown properly shows inside menu */
   .dropdown.open .dropdown-content {
     display: flex !important;
+    flex-direction: column;
+    animation: fadeIn 0.25s ease;
   }
 }
 
@@ -426,15 +433,25 @@ section {
 }
 
 .title-with-icon i {
-  width: 18px;
-  height: 18px;
+  flex-shrink: 0;
+  width: 24px;              /* 🔧 control this to resize all icons */
+  height: 24px;
+  min-width: 20px;
+  min-height: 20px;
   stroke: #2563eb;
   stroke-width: 2.2;
+  vertical-align: middle;
+  display: inline-block;
 }
+
 
 body.dark .title-with-icon i {
   stroke: #60a5fa;
 }
+    .title-with-icon h3 {
+  line-height: 1.1;
+}
+
 
     .card p {
       font-size: 0.9rem;
