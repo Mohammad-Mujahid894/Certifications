@@ -263,10 +263,12 @@ header .brand strong {
 
   #navbar.show { display: flex; }
 
-  #navbar a {
-    padding: 10px 14px; /* ✅ reduced padding */
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-  }
+#navbar a {
+  padding: 8px 14px;         /* reduced vertical spacing */
+  line-height: 1.2;          /* tighter line spacing */
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
   #navbar a:last-child { border-bottom: none; }
 
   .dropdown-content {
