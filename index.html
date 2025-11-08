@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Certifications & Credentials</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      background: linear-gradient(to bottom, #f8fafc, #fff);
+      color: #1e293b;
+    }
+
+    section {
+      padding: 4rem 1rem;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 0.75rem;
+      background: linear-gradient(to right, #2563eb, #4f46e5);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    p.subtitle {
+      text-align: center;
+      color: #64748b;
+      margin-bottom: 3rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+
+    .card {
+      border-radius: 1rem;
+      padding: 1px;
+      background: linear-gradient(to bottom right, var(--from), var(--to));
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .card-inner {
+      background: white;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card h3 {
+      font-size: 1.1rem;
+      margin: 0;
+      color: #0f172a;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: #475569;
+      margin: 0.75rem 0 1.5rem 0;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      color: #64748b;
+      font-size: 0.85rem;
+    }
+
+    /* Modal */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 50;
+    }
+    .overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 1rem;
+      max-width: 500px;
+      width: 90%;
+      padding: 2rem;
+      transform: scale(0.9);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      position: relative;
+    }
+    .modal.active {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: none;
+      border: none;
+      font-size: 1.25rem;
+      color: #64748b;
+      cursor: pointer;
+    }
+
+    .modal h3 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .modal p { color: #475569; line-height: 1.5; }
+    .modal small { color: #64748b; display: block; margin: 1rem 0 1.5rem; }
+
+    .actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      border-radius: 0.375rem;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn.primary {
+      background: #2563eb;
+      color: #fff;
+    }
+    .btn.primary:hover {
+      background: #1e40af;
+    }
+
+    .btn.secondary {
+      border: 1px solid #cbd5e1;
+      color: #475569;
+      background: white;
+    }
+    .btn.secondary:hover {
+      background: #f1f5f9;
+    }
+  </style>
+</head>
+<body>
+  <section>
+    <h2>Certifications & Credentials</h2>
+    <p class="subtitle">Verified learning and professional credentials from ICMAI, Accenture, Skillsoft, and more.</p>
+    <div class="grid" id="certGrid"></div>
+
+    <div class="overlay" id="overlay">
+      <div class="modal" id="modal">
+        <button class="close-btn" id="closeBtn">&times;</button>
+        <h3 id="modalTitle"></h3>
+        <p id="modalDescription"></p>
+        <small id="modalDetails"></small>
+        <div class="actions">
+          <button id="viewBtn" class="btn primary" style="display:none;">🔗 View Credential</button>
+          <button id="copyBtn" class="btn secondary">📋 Copy Title</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const CERTIFICATIONS = [
+      {
+        title: "Soft Skills & Communication Mastery",
+        issuer: "ICMAI",
+        date: "Mar 2025",
+        hasCredential: true,
+        credentialUrl: "#",
+        from: "#3b82f6", to: "#6366f1",
+        description: "Professional development program covering business communication, etiquette, and presentation excellence."
+      },
+      {
+        title: "QuickBooks & Zoho Accounting ERPs",
+        issuer: "Talib Prime",
+        date: "Jan 2025",
+        hasCredential: false,
+        credentialUrl: "#",
+        from: "#22c55e", to: "#10b981",
+        description: "Hands-on accounting ERP course — learned to record transactions, reconcile accounts, and generate reports."
+      },
+      {
+        title: "E-Filing (Income Tax) Practical Training",
+        issuer: "Essential Academy",
+        date: "Nov 2024",
+        hasCredential: true,
+        credentialUrl: "#",
+        from: "#f59e0b", to: "#f97316",
+        description: "Comprehensive training on Indian Income Tax e-filing, returns, and compliance."
+      },
+      {
+        title: "Microsoft Office Professional",
+        issuer: "Skillsoft / Pluralsight",
+        date: "Oct 2024",
+        hasCredential: false,
+        credentialUrl: "#",
+        from: "#0ea5e9", to: "#06b6d4",
+        description: "Productivity suite mastery — Excel analytics, PowerPoint storytelling, and Word document automation."
+      },
+      {
+        title: "Accenture O2C & Financial Process Fundamentals",
+        issuer: "Accenture Internal Training",
+        date: "Aug 2024",
+        hasCredential: true,
+        credentialUrl: "#",
+        from: "#9333ea", to: "#ec4899",
+        description: "Practical Order-to-Cash certification covering AR, cash application, disputes, and collections lifecycle."
+      },
+      {
+        title: "Power BI for Financial Insights",
+        issuer: "Pluralsight",
+        date: "May 2024",
+        hasCredential: true,
+        credentialUrl: "#",
+        from: "#14b8a6", to: "#06b6d4",
+        description: "Built dashboards and visual reports using real O2C data, improving data storytelling and analysis."
+      },
+      {
+        title: "30+ Micro Certifications (Skillsoft, Essential, Accenture)",
+        issuer: "Various Platforms",
+        date: "2023–2025",
+        hasCredential: false,
+        credentialUrl: "#",
+        from: "#6b7280", to: "#475569",
+        description: "Completed a range of micro-courses across business, technology, and productivity domains."
+      }
+    ];
+
+    const grid = document.getElementById("certGrid");
+    const overlay = document.getElementById("overlay");
+    const modal = document.getElementById("modal");
+    const closeBtn = document.getElementById("closeBtn");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalDescription = document.getElementById("modalDescription");
+    const modalDetails = document.getElementById("modalDetails");
+    const viewBtn = document.getElementById("viewBtn");
+    const copyBtn = document.getElementById("copyBtn");
+
+    CERTIFICATIONS.forEach(cert => {
+      const div = document.createElement("div");
+      div.className = "card";
+      div.style.setProperty("--from", cert.from);
+      div.style.setProperty("--to", cert.to);
+      div.innerHTML = `
+        <div class="card-inner">
+          <div>
+            <h3>${cert.title}</h3>
+            <p>${cert.description}</p>
+          </div>
+          <div class="card-footer">
+            <span>${cert.issuer}</span>
+            <span>${cert.date}</span>
+          </div>
+        </div>
+      `;
+      div.addEventListener("click", () => openModal(cert));
+      grid.appendChild(div);
+    });
+
+    function openModal(cert) {
+      modalTitle.textContent = cert.title;
+      modalDescription.textContent = cert.description;
+      modalDetails.textContent = `Issuer: ${cert.issuer} | Date: ${cert.date}`;
+      if (cert.hasCredential) {
+        viewBtn.style.display = "inline-flex";
+        viewBtn.onclick = () => window.open(cert.credentialUrl, "_blank");
+      } else {
+        viewBtn.style.display = "none";
+      }
+      copyBtn.onclick = () => {
+        navigator.clipboard.writeText(cert.title);
+        copyBtn.textContent = "✅ Copied!";
+        setTimeout(() => copyBtn.textContent = "📋 Copy Title", 1500);
+      };
+      overlay.classList.add("active");
+      setTimeout(() => modal.classList.add("active"), 20);
+    }
+
+    closeBtn.onclick = () => closeModal();
+    overlay.onclick = e => { if (e.target === overlay) closeModal(); };
+
+    function closeModal() {
+      modal.classList.remove("active");
+      setTimeout(() => overlay.classList.remove("active"), 200);
+    }
+  </script>
+</body>
+</html>
