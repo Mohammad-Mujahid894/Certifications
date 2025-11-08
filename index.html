@@ -14,34 +14,37 @@
     body {
       font-family: "Inter", sans-serif;
       min-height: 100vh;
-      background: linear-gradient(to bottom, #0f172a, #1e293b);
-      color: #e2e8f0;
-      transition: background 0.5s ease, color 0.5s ease;
-    }
-    body.light {
       background: linear-gradient(to bottom, #f8fafc, #ffffff);
       color: #1e293b;
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+    body.dark {
+      background: linear-gradient(to bottom, #0f172a, #1e293b);
+      color: #e2e8f0;
     }
 
     header {
       text-align: center;
       margin-top: 3rem;
     }
+
     header h2 {
       font-size: 2.6rem;
       font-weight: 700;
-      background: linear-gradient(to right, #93c5fd, #c4b5fd);
+      /* richer, darker gradient */
+      background: linear-gradient(to right, #2563eb, #4f46e5);
       -webkit-background-clip: text;
       color: transparent;
       display: inline-block;
       position: relative;
     }
+
     header h2::after {
       content: "";
       display: block;
       width: 90px;
       height: 3px;
-      background: linear-gradient(to right, #6366f1, #8b5cf6);
+      background: linear-gradient(to right, #2563eb, #4f46e5);
       margin: 0.5rem auto 0;
       border-radius: 2px;
     }
@@ -54,10 +57,10 @@
 
     p.subtitle {
       text-align: center;
-      color: #94a3b8;
+      color: #64748b;
       margin-bottom: 3rem;
     }
-    body.light p.subtitle { color: #64748b; }
+    body.dark p.subtitle { color: #94a3b8; }
 
     .grid {
       display: grid;
@@ -66,7 +69,6 @@
       align-items: stretch;
     }
 
-    /* Animated gradient border */
     @keyframes gradientMove {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
@@ -87,11 +89,11 @@
 
     .card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     }
 
     .card-inner {
-      background: #1e293b;
+      background: white;
       border-radius: 1rem;
       padding: 1.5rem;
       height: 100%;
@@ -99,29 +101,25 @@
       flex-direction: column;
       justify-content: space-between;
     }
-    body.light .card-inner { background: white; }
+    body.dark .card-inner { background: #1e293b; }
 
-    .card h3 {
-      font-size: 1.1rem;
-      margin-bottom: 0.6rem;
-    }
+    .card h3 { font-size: 1.1rem; margin-bottom: 0.6rem; }
     .card p {
       font-size: 0.9rem;
-      color: #cbd5e1;
+      color: #475569;
       margin-bottom: 1.5rem;
       line-height: 1.4;
     }
-    body.light .card p { color: #475569; }
+    body.dark .card p { color: #cbd5e1; }
 
     .card-footer {
       display: flex;
       justify-content: space-between;
       font-size: 0.85rem;
-      color: #94a3b8;
+      color: #64748b;
     }
-    body.light .card-footer { color: #64748b; }
+    body.dark .card-footer { color: #94a3b8; }
 
-    /* Glassmorphic modal */
     .overlay {
       position: fixed;
       inset: 0;
@@ -135,14 +133,11 @@
       transition: opacity 0.4s ease;
       z-index: 50;
     }
-    .overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
+    .overlay.active { opacity: 1; pointer-events: auto; }
 
     .modal {
-      background: rgba(30, 41, 59, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(0, 0, 0, 0.1);
       border-radius: 1rem;
       max-width: 520px;
       width: 90%;
@@ -150,12 +145,12 @@
       transform: scale(0.9);
       opacity: 0;
       position: relative;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
       backdrop-filter: blur(18px);
     }
-    body.light .modal {
-      background: rgba(255, 255, 255, 0.8);
-      border: 1px solid rgba(0, 0, 0, 0.1);
+    body.dark .modal {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .close-btn {
@@ -165,26 +160,27 @@
       background: none;
       border: none;
       font-size: 1.4rem;
-      color: #cbd5e1;
+      color: #475569;
       cursor: pointer;
     }
-    body.light .close-btn { color: #475569; }
+    body.dark .close-btn { color: #cbd5e1; }
 
     .modal h3 {
       font-size: 1.6rem;
       font-weight: 600;
       margin-bottom: 0.8rem;
     }
-    .modal p { color: #e2e8f0; line-height: 1.6; margin-bottom: 1.2rem; }
-    body.light .modal p { color: #475569; }
+
+    .modal p { color: #475569; line-height: 1.6; margin-bottom: 1.2rem; }
+    body.dark .modal p { color: #e2e8f0; }
 
     .modal small {
       display: block;
       margin-bottom: 2rem;
-      color: #94a3b8;
+      color: #64748b;
       font-size: 0.9rem;
     }
-    body.light .modal small { color: #64748b; }
+    body.dark .modal small { color: #94a3b8; }
 
     .actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
 
@@ -200,24 +196,15 @@
       font-weight: 500;
       transition: all 0.25s ease;
     }
+
     .btn.primary { background: #3b82f6; color: #fff; }
     .btn.primary:hover { background: #2563eb; }
-    .btn.secondary {
-      background: #334155;
-      color: #f8fafc;
-    }
-    .btn.secondary:hover { background: #475569; }
-    body.light .btn.secondary {
-      background: #e2e8f0;
-      color: #1e293b;
-    }
-    .btn.disabled {
-      background: #475569;
-      color: #cbd5e1;
-      cursor: not-allowed;
-    }
+    .btn.secondary { background: #e2e8f0; color: #1e293b; }
+    .btn.secondary:hover { background: #cbd5e1; }
+    body.dark .btn.secondary { background: #334155; color: #f8fafc; }
+    .btn.disabled { background: #cbd5e1; color: #475569; cursor: not-allowed; }
+    body.dark .btn.disabled { background: #475569; color: #cbd5e1; }
 
-    /* Floating dark mode button */
     #themeToggle {
       position: fixed;
       bottom: 1.5rem;
@@ -238,7 +225,7 @@
   </style>
 </head>
 
-<body>
+<body class="light">
   <header>
     <h2>Certifications & Credentials</h2>
   </header>
@@ -262,7 +249,7 @@
     </div>
   </section>
 
-  <button id="themeToggle">☀️</button>
+  <button id="themeToggle">🌙</button>
 
   <script>
     gsap.registerPlugin(ScrollTrigger);
@@ -288,8 +275,6 @@
     const copyBtn = document.getElementById("copyBtn");
     const disabledBtn = document.getElementById("disabledBtn");
     const themeToggle = document.getElementById("themeToggle");
-
-    document.body.classList.remove("light");
 
     CERTIFICATIONS.forEach(cert => {
       const div = document.createElement("div");
@@ -320,7 +305,6 @@
       modalTitle.textContent = cert.title;
       modalDescription.textContent = cert.description;
       modalDetails.textContent = `Issuer: ${cert.issuer} | Date: ${cert.date}`;
-
       if (cert.hasCredential) {
         viewBtn.style.display = "inline-flex";
         disabledBtn.style.display = "none";
@@ -347,8 +331,8 @@
     }
 
     themeToggle.addEventListener("click", () => {
-      document.body.classList.toggle("light");
-      themeToggle.textContent = document.body.classList.contains("light") ? "🌙" : "☀️";
+      document.body.classList.toggle("dark");
+      themeToggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
     });
   </script>
 </body>
