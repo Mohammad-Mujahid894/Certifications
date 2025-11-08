@@ -9,6 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -416,6 +418,24 @@ section {
     body.dark .card-inner { background: #1e293b; }
 
     .card h3 { font-size: 1.1rem; margin-bottom: 0.6rem; }
+    .title-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 0.6rem;
+}
+
+.title-with-icon i {
+  width: 18px;
+  height: 18px;
+  stroke: #2563eb;
+  stroke-width: 2.2;
+}
+
+body.dark .title-with-icon i {
+  stroke: #60a5fa;
+}
+
     .card p {
       font-size: 0.9rem;
       color: #475569;
@@ -676,17 +696,21 @@ document.addEventListener("DOMContentLoaded", () => {
       div.className = "card";
       div.style.setProperty("--from", cert.from);
       div.style.setProperty("--to", cert.to);
-      div.innerHTML = `
-        <div class="card-inner">
-          <div>
-            <h3>${cert.title}</h3>
-            <p>${cert.description}</p>
-          </div>
-          <div class="card-footer">
-            <span>${cert.issuer}</span>
-            <span>${cert.date}</span>
-          </div>
-        </div>`;
+     div.innerHTML = `
+  <div class="card-inner">
+    <div>
+      <div class="title-with-icon">
+        <i data-lucide="award"></i>
+        <h3>${cert.title}</h3>
+      </div>
+      <p>${cert.description}</p>
+    </div>
+    <div class="card-footer">
+      <span>${cert.issuer}</span>
+      <span>${cert.date}</span>
+    </div>
+  </div>`;
+
       div.addEventListener("click", () => openModal(cert));
       grid.appendChild(div);
 
@@ -695,6 +719,8 @@ document.addEventListener("DOMContentLoaded", () => {
         opacity: 0, y: 40, duration: 0.6, ease: "power2.out"
       });
     });
+    lucide.createIcons();
+
 
     function openModal(cert) {
       modalTitle.textContent = cert.title;
