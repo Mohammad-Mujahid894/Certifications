@@ -100,69 +100,64 @@ header h2::after {
     
 
 
+/* ====== HEADER / NAVBAR ====== */
 header {
   position: fixed;
   top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
   width: 100%;
-  max-width: 1200px;
-  padding: 12px 24px;
+  padding: 14px 32px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
   backdrop-filter: blur(18px) saturate(180%);
-  background: rgba(150, 150, 150, 0.4); /* grey tone visible on white bg */
-  border: 1px solid rgba(200, 200, 200, 0.25);
-  border-radius: 0 0 16px 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  background: rgba(120, 120, 120, 0.6); /* richer visible grey */
+  border-bottom: 1px solid rgba(180, 180, 180, 0.3);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.15);
   z-index: 1000;
   transition: background 0.4s ease, box-shadow 0.4s ease;
 }
 
 body.dark header {
-  background: rgba(30, 41, 59, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+  background: rgba(30, 41, 59, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
-
 
 /* Brand */
 header .brand {
-  flex: 1;
   display: flex;
   align-items: center;
   gap: 10px;
 }
 header .brand img {
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
   object-fit: cover;
 }
 header .brand strong {
   font-size: 18px;
-  color: #eaf2ff;
-  white-space: nowrap;
+  color: #f1f5f9;
+  font-weight: 700;
 }
 
-/* ===== NAV ===== */
+/* Navbar Links */
 #navbar {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
 }
 #navbar a {
-  color: #eaf2ff;
+  color: #f1f5f9;
   text-decoration: none;
   font-weight: 600;
   padding: 8px 12px;
-  transition: all 0.3s ease;
+  border-radius: 8px;
+  transition: all 0.25s ease;
 }
 #navbar a:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.18);
   color: #fff;
 }
 
@@ -170,40 +165,51 @@ header .brand strong {
 .dropdown {
   position: relative;
 }
+.dropbtn {
+  cursor: pointer;
+}
 .dropdown-content {
   display: none;
   position: absolute;
-  top: 100%;      /* below button */
+  top: 110%;
   left: 0;
+  background: rgba(100, 100, 100, 0.9);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
   min-width: 200px;
-  background: rgba(20,20,20,0.95);
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.6);
   flex-direction: column;
+  animation: fadeIn 0.25s ease;
   z-index: 2000;
 }
 .dropdown-content a {
-  display: block;
-  padding: 10px 16px;
   color: #fff;
-  text-decoration: none;
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
+  padding: 12px 16px;
+  display: block;
+  font-weight: 500;
+  transition: background 0.25s ease;
 }
 .dropdown-content a:hover {
-  background: rgba(122, 162, 255, 0.3);
+  background: rgba(255, 255, 255, 0.15);
 }
 
-/* Show dropdown on hover (desktop) */
+/* Show on hover (desktop) */
 @media (hover: hover) and (pointer: fine) {
   .dropdown:hover .dropdown-content {
     display: flex;
   }
 }
 
+/* Keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* ===== HAMBURGER ===== */
 .hamburger {
-display: flex;
+  display: none;
   flex-direction: column;
   gap: 6px;
   cursor: pointer;
@@ -212,7 +218,7 @@ display: flex;
 .hamburger span {
   height: 3px;
   width: 25px;
-  background: white;
+  background: #fff;
   border-radius: 2px;
   transition: all 0.3s ease;
 }
@@ -222,51 +228,33 @@ display: flex;
 
 /* ===== MOBILE ===== */
 @media (max-width: 768px) {
-  header {
-    left: 0;
-    right: 0;
-    transform: none;
-    width: 100%;
-    padding: 10px 15px;   /* reduce padding to avoid overflow */
-    display: flex;
-    justify-content: space-between; /* brand left, hamburger right */
-    align-items: center;
-    border-radius: 0;
-    box-sizing: border-box;
-  }
-
+  .hamburger { display: flex; }
   #navbar {
-    position: absolute;
-    top: 60px;
-    right: 15px;
-    background: rgba(20, 20, 20, 0.95);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    max-height: 0;
-    width: 250px;
-    overflow: hidden;
+    display: none;
     flex-direction: column;
-    transition: max-height 0.3s ease;
+    position: absolute;
+    top: 65px;
+    right: 15px;
+    background: rgba(80, 80, 80, 0.95);
+    border-radius: 12px;
+    width: 230px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.4);
+    overflow: hidden;
   }
-  #navbar.show { max-height: 500px; overflow-y: auto; }
-
+  #navbar.show { display: flex; }
   #navbar a {
-    display: block;
-    width: 100%;
-    padding: 12px 15px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
   }
   #navbar a:last-child { border-bottom: none; }
-
   .dropdown-content {
     position: static;
-    display: none;
-    background: rgba(30, 30, 30, 0.9);
-    border-radius: 8px;
-    margin-top: 5px;
+    background: rgba(100, 100, 100, 0.9);
+    box-shadow: none;
   }
-  .dropdown.active .dropdown-content { display: block; }
+  .dropdown.active .dropdown-content { display: flex; }
 }
+
 
     @media (max-width: 768px) {
   /* Hide navbar by default */
@@ -737,16 +725,19 @@ document.querySelectorAll('.dropdown > .dropbtn').forEach(btn => {
       themeToggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
     });
   </script>
-  <script>
+<script>
 window.addEventListener("scroll", () => {
   const header = document.querySelector("header");
-  if (window.scrollY > 30) {
-    header.style.background = "rgba(120,120,120,0.65)";
+  if (window.scrollY > 20) {
+    header.style.background = "rgba(100,100,100,0.75)";
+    header.style.boxShadow = "0 3px 14px rgba(0,0,0,0.2)";
   } else {
-    header.style.background = "rgba(160,160,160,0.5)";
+    header.style.background = "rgba(120,120,120,0.6)";
+    header.style.boxShadow = "0 2px 10px rgba(0,0,0,0.1)";
   }
 });
 </script>
+
 
 </body>
 </html>
