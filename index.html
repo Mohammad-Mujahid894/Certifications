@@ -235,6 +235,7 @@ header .brand strong {
 .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
 /* ===== MOBILE ===== */
+/* MOBILE: keep top-level links visible only; show More's submenu only when .dropdown.open */
 @media (max-width: 768px) {
   header {
     top: 0;
@@ -245,10 +246,9 @@ header .brand strong {
     padding: 12px 18px;
   }
 
-  .hamburger {
-    display: flex !important;
-  }
+  .hamburger { display: flex !important; }
 
+  /* top-level mobile menu container */
   #navbar {
     display: none;
     flex-direction: column;
@@ -259,54 +259,40 @@ header .brand strong {
     border-radius: 12px;
     width: 220px;
     box-shadow: 0 6px 14px rgba(0,0,0,0.35);
-    overflow: visible !important;
-    animation: fadeIn 0.25s ease;
+    overflow: hidden;
     gap: 0;
+    z-index: 10000;
   }
-
   #navbar.show { display: flex; }
 
+  /* top-level items: compact */
   #navbar a {
-    padding: 9px 14px;
+    padding: 10px 14px;
     line-height: 1.35;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
     margin: 0;
+    background: transparent;
   }
-
   #navbar a:last-child { border-bottom: none; }
 
-  .dropdown-content {
+  /* submenu: hidden by default */
+  .dropdown .dropdown-content {
+    display: none;                /* hidden until .open */
     position: relative;
     background: rgba(60, 60, 60, 0.97);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-    z-index: 3000;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
     width: 100%;
-    left: 0;
-    top: auto;
-    margin-top: 2px;
+    margin-top: 6px;
     border-radius: 10px;
-    overflow: visible;
+    overflow: hidden;
+    z-index: 10001;
   }
 
+  /* only show submenu when parent has .open */
   .dropdown.open .dropdown-content {
     display: flex !important;
     flex-direction: column;
-    animation: fadeIn 0.25s ease;
-  }
-}
-
-@media (max-width: 768px) {
-  header { z-index: 9999; } /* keep header above */
-  #navbar { z-index: 10000; } /* ensure nav shows fully */
-  .dropdown-content {
-    position: relative !important;
-    display: flex !important;
-    flex-direction: column;
-    z-index: 10001;
-    background: rgba(60,60,60,0.97);
-    border-radius: 10px;
-    width: 100%;
-    margin-top: 4px;
+    animation: fadeIn 0.18s ease;
   }
 }
 
@@ -462,6 +448,25 @@ body.dark .title-with-icon i { stroke: #60a5fa; }
     .title-with-icon h3 {
   line-height: 1.1;
 }
+
+    /* Force lucide award icon size — change 22px to whatever you want */
+.title-with-icon svg[data-lucide],
+.title-with-icon i[data-lucide] {
+  width: 22px !important;      /* <-- change this to increase/decrease size */
+  height: 22px !important;
+  min-width: 22px !important;
+  min-height: 22px !important;
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Make strokes consistent (if the icon looks thin/thick) */
+.title-with-icon svg[data-lucide] * {
+  stroke-width: 2.2 !important; /* tweak 2.2 to make stroke thicker or thinner */
+  vector-effect: non-scaling-stroke;
+}
+
 
 
     .card p {
@@ -657,16 +662,21 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // 🔹 Toggle dropdown ("More ▾") on mobile
-  document.querySelectorAll(".dropdown > .dropbtn").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      if (window.innerWidth <= 768) {
-        e.preventDefault();
-        e.stopPropagation();
-        const parent = btn.parentElement;
-        parent.classList.toggle("open");
-      }
-    });
+  // Toggle dropdown ("More ▾") on mobile - scoped and idempotent
+document.querySelectorAll(".dropdown > .dropbtn").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    if (window.innerWidth <= 768) {
+      e.preventDefault();
+      e.stopPropagation();
+      // close any other open dropdowns first (optional, tidy UX)
+      document.querySelectorAll(".dropdown.open").forEach(d => {
+        if (d !== btn.parentElement) d.classList.remove("open");
+      });
+      const parent = btn.parentElement;
+      parent.classList.toggle("open");
+    }
   });
+});
 
   // 🔹 Close all menus when clicking outside
   document.addEventListener("click", (e) => {
