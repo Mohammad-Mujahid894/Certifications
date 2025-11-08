@@ -101,27 +101,31 @@ header h2::after {
 
 
 /* ====== HEADER / NAVBAR ====== */
+/* ====== HEADER / NAVBAR ====== */
 header {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 14px 32px;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 1200px;
+  padding: 14px 28px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  backdrop-filter: blur(18px) saturate(180%);
-  background: rgba(120, 120, 120, 0.6); /* richer visible grey */
-  border-bottom: 1px solid rgba(180, 180, 180, 0.3);
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(90, 90, 90, 0.55); /* darker grey glass */
+  border: 1px solid rgba(200, 200, 200, 0.25);
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
   z-index: 1000;
-  transition: background 0.4s ease, box-shadow 0.4s ease;
+  transition: background 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
 }
 
 body.dark header {
   background: rgba(30, 41, 59, 0.85);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 /* Brand */
@@ -161,7 +165,7 @@ header .brand strong {
   color: #fff;
 }
 
-/* ===== DROPDOWN ===== */
+/* Dropdown */
 .dropdown {
   position: relative;
 }
@@ -173,10 +177,10 @@ header .brand strong {
   position: absolute;
   top: 110%;
   left: 0;
-  background: rgba(100, 100, 100, 0.9);
+  background: linear-gradient(180deg, rgba(80,80,80,0.95), rgba(50,50,50,0.9)); /* soft gradient */
   backdrop-filter: blur(10px);
-  border-radius: 10px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35);
   overflow: hidden;
   min-width: 200px;
   flex-direction: column;
@@ -191,25 +195,25 @@ header .brand strong {
   transition: background 0.25s ease;
 }
 .dropdown-content a:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255,255,255,0.15);
 }
 
-/* Show on hover (desktop) */
+/* Show dropdown on hover (desktop) */
 @media (hover: hover) and (pointer: fine) {
   .dropdown:hover .dropdown-content {
     display: flex;
   }
 }
 
-/* Keyframes */
+/* Fade-in animation */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-5px); }
+  from { opacity: 0; transform: translateY(-6px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 /* ===== HAMBURGER ===== */
 .hamburger {
-  display: none;
+  display: none !important; /* hidden by default */
   flex-direction: column;
   gap: 6px;
   cursor: pointer;
@@ -228,14 +232,26 @@ header .brand strong {
 
 /* ===== MOBILE ===== */
 @media (max-width: 768px) {
-  .hamburger { display: flex; }
+  header {
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    border-radius: 0;
+    padding: 12px 18px;
+  }
+
+  .hamburger {
+    display: flex !important;
+  }
+
   #navbar {
     display: none;
     flex-direction: column;
     position: absolute;
     top: 65px;
     right: 15px;
-    background: rgba(80, 80, 80, 0.95);
+    background: rgba(50, 50, 50, 0.95);
     border-radius: 12px;
     width: 230px;
     box-shadow: 0 8px 18px rgba(0,0,0,0.4);
@@ -249,44 +265,41 @@ header .brand strong {
   #navbar a:last-child { border-bottom: none; }
   .dropdown-content {
     position: static;
-    background: rgba(100, 100, 100, 0.9);
+    background: rgba(60, 60, 60, 0.95);
     box-shadow: none;
   }
   .dropdown.active .dropdown-content { display: flex; }
 }
 
 
-    @media (max-width: 768px) {
-  /* Hide navbar by default */
-  #navbar {
-    display: none;
-    flex-direction: column;
-    gap: 10px;
-  }
 
-  /* Show navbar when hamburger clicked */
-  #navbar.show {
-    display: flex;
-  }
 
-  /* Dropdown content hidden by default */
-  .navbar .dropdown .dropdown-content {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-  }
 
-  /* Show dropdown when parent has 'open' */
-  .navbar .dropdown.open .dropdown-content {
-    display: flex;
-  }
 
-  /* Make dropdown links full width for mobile */
-  .dropdown .dropdown-content a {
-    display: block;
-    padding-left: 15px;
-  }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
 .intro-center {
   text-align: center;
