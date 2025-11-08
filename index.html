@@ -376,7 +376,28 @@ section {
   padding-top: 2rem;
   margin-top: 1rem;
 }
+/* Fix overlapping of More ▾ over Contact */
+#navbar a,
+.dropdown {
+  position: relative;
+  z-index: 1;
+}
 
+/* Give a small margin to separate Contact and More */
+#navbar a[href*="contact"],
+#navbar .dropdown {
+  margin-top: 4px;
+}
+
+.dropbtn {
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+}
+.dropbtn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
 
 
 
@@ -495,6 +516,19 @@ body.dark .title-with-icon i { stroke: #60a5fa; }
 .title-with-icon svg[data-lucide] * {
   stroke-width: 2.2 !important; /* tweak 2.2 to make stroke thicker or thinner */
   vector-effect: non-scaling-stroke;
+}
+/* Ensure modal award icon looks same size and consistent color */
+.modal .title-with-icon svg[data-lucide="award"] {
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px !important;
+  min-height: 24px !important;
+  stroke: #2563eb;
+  stroke-width: 2.2;
+  vertical-align: middle;
+}
+body.dark .modal .title-with-icon svg[data-lucide="award"] {
+  stroke: #60a5fa;
 }
 
 
@@ -793,34 +827,51 @@ setTimeout(() => lucide.createIcons(), 100);
 
 
 
-    function openModal(cert) {
-      modalTitle.textContent = cert.title;
-      modalDescription.textContent = cert.description;
-      modalDetails.textContent = `Issuer: ${cert.issuer} | Date: ${cert.date}`;
-      if (cert.hasCredential) {
-        viewBtn.style.display = "inline-flex";
-        disabledBtn.style.display = "none";
-        viewBtn.onclick = () => window.open(cert.credentialUrl, "_blank");
-      } else {
-        viewBtn.style.display = "none";
-        disabledBtn.style.display = "inline-flex";
-      }
+function openModal(cert) {
+  // 🏅 Add Award icon with consistent style
+  modalTitle.innerHTML = `
+    <div class="title-with-icon" style="display: flex; align-items: center; gap: 8px; margin-bottom: 0.8rem;">
+      <i data-lucide="award"></i>
+      <span>${cert.title}</span>
+    </div>
+  `;
 
-      copyBtn.onclick = () => {
-        navigator.clipboard.writeText(cert.title);
-        copyBtn.textContent = "Copied!";
-        setTimeout(() => (copyBtn.textContent = "Copy Title"), 1500);
-      };
+  modalDescription.textContent = cert.description;
+  modalDetails.textContent = `Issuer: ${cert.issuer} | Date: ${cert.date}`;
 
-      overlay.classList.add("active");
-      gsap.fromTo(modal, { scale: 0.8, opacity: 0, y: -30 }, { scale: 1, opacity: 1, y: 0, duration: 0.35, ease: "back.out(1.8)" });
-    }
+  if (cert.hasCredential) {
+    viewBtn.style.display = "inline-flex";
+    disabledBtn.style.display = "none";
+    viewBtn.onclick = () => window.open(cert.credentialUrl, "_blank");
+  } else {
+    viewBtn.style.display = "none";
+    disabledBtn.style.display = "inline-flex";
+  }
 
-    closeBtn.onclick = closeModal;
-    overlay.onclick = e => { if (e.target === overlay) closeModal(); };
-    function closeModal() {
-      gsap.to(modal, { scale: 0.85, opacity: 0, duration: 0.25, onComplete: () => overlay.classList.remove("active") });
-    }
+  copyBtn.onclick = () => {
+    navigator.clipboard.writeText(cert.title);
+    copyBtn.textContent = "Copied!";
+    setTimeout(() => (copyBtn.textContent = "Copy Title"), 1500);
+  };
+
+  overlay.classList.add("active");
+  lucide.createIcons(); // render the icon inside the modal
+
+  gsap.fromTo(
+    modal,
+    { scale: 0.8, opacity: 0, y: -30 },
+    { scale: 1, opacity: 1, y: 0, duration: 0.35, ease: "back.out(1.8)" }
+  );
+
+  // animate the award icon entry
+  gsap.from(".modal .title-with-icon [data-lucide='award']", {
+    opacity: 0,
+    y: -10,
+    duration: 0.4,
+    ease: "power2.out"
+  });
+}
+
 
     themeToggle.addEventListener("click", () => {
       document.body.classList.toggle("dark");
