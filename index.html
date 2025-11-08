@@ -10,189 +10,327 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
   <style>
-    :root{
-      --glass-light: rgba(255,255,255,0.72);
-      --glass-dark: rgba(18,25,40,0.64);
-      --nav-text-light: #0f172a;
-      --nav-text-dark: #e2e8f0;
-      --accent-g1: #7aa2ff; /* galaxy gradient */
-      --accent-g2: #8a7aff;
-      --accent-g3: #4ff0b0;
-    }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html,body { height: 100%; }
     body {
       font-family: "Inter", sans-serif;
       min-height: 100vh;
       background: linear-gradient(to bottom, #f8fafc, #ffffff);
       color: #1e293b;
-      transition: background 0.45s ease, color 0.45s ease;
+      transition: background 0.5s ease, color 0.5s ease;
     }
     body.dark {
       background: linear-gradient(to bottom, #0f172a, #1e293b);
       color: #e2e8f0;
     }
 
-    /* ---------------------- NAV (keeps your HTML) ---------------------- */
     header {
-      position: fixed;
-      top: 0;               /* ensure at very top */
-      left: 50%;
-      transform: translateX(-50%);
-      width: 95%;
-      max-width: 1100px;
-      padding: 12px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-sizing: border-box;
-      backdrop-filter: blur(14px) saturate(140%);
-      background: var(--glass-light); /* light-mode default */
-      border-radius: 16px;
-      border: 1px solid rgba(0,0,0,0.06);
-      box-shadow: 0 8px 28px rgba(12, 24, 40, 0.08);
-      z-index: 1000;
-      transition: background 0.35s ease, color 0.35s ease, border 0.35s ease;
-    }
-    /* adapt the glass for dark mode */
-    body.dark header {
-      background: var(--glass-dark);
-      border: 1px solid rgba(255,255,255,0.06);
-      box-shadow: 0 8px 28px rgba(0,0,0,0.45);
-    }
-
-    /* Brand (kept same) */
-    header .brand {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    header .brand img {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      object-fit: cover;
-      display: block;
-    }
-    header .brand strong {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--nav-text-light);
-    }
-    body.dark header .brand strong { color: var(--nav-text-dark); }
-
-    /* NAV LINKS (colors adapted for both modes) */
-    #navbar {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-    #navbar a {
-      color: var(--nav-text-light);
-      text-decoration: none;
-      font-weight: 600;
-      padding: 8px 12px;
-      border-radius: 12px;
-      transition: all 0.25s ease;
-    }
-    #navbar a:hover {
-      background: rgba(0,0,0,0.04);
-      color: var(--nav-text-light);
-    }
-    body.dark #navbar a {
-      color: var(--nav-text-dark);
-    }
-    body.dark #navbar a:hover {
-      background: rgba(255,255,255,0.06);
-    }
-
-    /* hamburger stays the same */
-    .hamburger {
-      display: none; /* hidden desktop by default */
-      flex-direction: column;
-      gap: 6px;
-      cursor: pointer;
-      z-index: 1101;
-    }
-    .hamburger span {
-      height: 3px;
-      width: 25px;
-      background: var(--nav-text-light);
-      border-radius: 2px;
-      transition: all 0.3s ease;
-    }
-    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-    .hamburger.active span:nth-child(2) { opacity: 0; }
-    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-    body.dark .hamburger span { background: var(--nav-text-dark); }
-
-    /* dropdown content */
-    .dropdown { position: relative; }
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      top: calc(100% + 8px);
-      left: 0;
-      min-width: 200px;
-      background: rgba(20,20,20,0.95);
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.45);
-      flex-direction: column;
-      z-index: 2000;
-    }
-    .dropdown-content a { color: #fff; padding: 10px 14px; display:block; text-decoration:none; }
-    .dropdown-content a:hover { background: rgba(122,162,255,0.12); }
-
-    @media (hover: hover) and (pointer: fine) {
-      .dropdown:hover .dropdown-content { display: flex; }
-    }
-
-    /* MOBILE adjustments */
-    @media (max-width: 880px) {
-      header { padding: 10px 14px; left: 0; transform: none; width: 100%; border-radius: 0; }
-      .hamburger { display: flex; }
-      #navbar { display: none; position: absolute; top: calc(100% + 8px); right: 12px; background: rgba(255,255,255,0.96); border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); flex-direction: column; width: 220px; overflow: hidden; }
-      body.dark #navbar { background: rgba(20,20,20,0.92); }
-      #navbar.show { display: flex; }
-      #navbar a { color: #0f172a; }
-      body.dark #navbar a { color: #e2e8f0; }
-    }
-
-    /* ---------------------- HEADING ---------------------- */
-    .intro-center {
       text-align: center;
-      margin-top: 100px; /* baseline; will be corrected by JS to match header height */
-      margin-bottom: 8px;
-    }
-    .intro-center .title span {
-      background: linear-gradient(90deg, var(--accent-g1), var(--accent-g2), var(--accent-g3));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      font-size: clamp(1.8rem, 4.5vw, 2.6rem);
-      font-weight: 700;
-      display: inline-block;
+      margin-top: 3rem;
     }
 
-    /* subtitle */
-    .subtitle{
-      text-align:center;
+   header h2 {
+  font-size: 2.6rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #7aa2ff, #8a7aff, #4ff0b0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  position: relative;
+}
+header h2::after {
+  content: "";
+  display: block;
+  width: 90px;
+  height: 3px;
+  background: linear-gradient(90deg, #7aa2ff, #8a7aff, #4ff0b0);
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+}
+
+    section {
+      padding: 2rem 1rem 4rem;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    p.subtitle {
+      text-align: center;
       color: #64748b;
-      max-width: 900px;
-      margin: 0.5rem auto 2rem;
+      margin-bottom: 3rem;
     }
-    body.dark .subtitle { color: #94a3b8; }
+    body.dark p.subtitle { color: #94a3b8; }
 
-    /* ---------------------- GRID / CARDS ---------------------- */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+    header {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 95%;
+  max-width: 1100px;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  backdrop-filter: saturate(180%) blur(20px);
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+}
+
+/* Brand */
+header .brand {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+header .brand img {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+header .brand strong {
+  font-size: 18px;
+  color: #eaf2ff;
+  white-space: nowrap;
+}
+
+/* ===== NAV ===== */
+#navbar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+#navbar a {
+  color: #eaf2ff;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 12px;
+  transition: all 0.3s ease;
+}
+#navbar a:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  color: #fff;
+}
+
+/* ===== DROPDOWN ===== */
+.dropdown {
+  position: relative;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;      /* below button */
+  left: 0;
+  min-width: 200px;
+  background: rgba(20,20,20,0.95);
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.6);
+  flex-direction: column;
+  z-index: 2000;
+}
+.dropdown-content a {
+  display: block;
+  padding: 10px 16px;
+  color: #fff;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.dropdown-content a:hover {
+  background: rgba(122, 162, 255, 0.3);
+}
+
+/* Show dropdown on hover (desktop) */
+@media (hover: hover) and (pointer: fine) {
+  .dropdown:hover .dropdown-content {
+    display: flex;
+  }
+}
+
+/* ===== HAMBURGER ===== */
+.hamburger {
+display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  z-index: 1101;
+}
+.hamburger span {
+  height: 3px;
+  width: 25px;
+  background: white;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  header {
+    left: 0;
+    right: 0;
+    transform: none;
+    width: 100%;
+    padding: 10px 15px;   /* reduce padding to avoid overflow */
+    display: flex;
+    justify-content: space-between; /* brand left, hamburger right */
+    align-items: center;
+    border-radius: 0;
+    box-sizing: border-box;
+  }
+
+  #navbar {
+    position: absolute;
+    top: 60px;
+    right: 15px;
+    background: rgba(20, 20, 20, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    max-height: 0;
+    width: 250px;
+    overflow: hidden;
+    flex-direction: column;
+    transition: max-height 0.3s ease;
+  }
+  #navbar.show { max-height: 500px; overflow-y: auto; }
+
+  #navbar a {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  #navbar a:last-child { border-bottom: none; }
+
+  .dropdown-content {
+    position: static;
+    display: none;
+    background: rgba(30, 30, 30, 0.9);
+    border-radius: 8px;
+    margin-top: 5px;
+  }
+  .dropdown.active .dropdown-content { display: block; }
+}
+
+    @media (max-width: 768px) {
+  /* Hide navbar by default */
+  #navbar {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Show navbar when hamburger clicked */
+  #navbar.show {
+    display: flex;
+  }
+
+  /* Dropdown content hidden by default */
+  .navbar .dropdown .dropdown-content {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  /* Show dropdown when parent has 'open' */
+  .navbar .dropdown.open .dropdown-content {
+    display: flex;
+  }
+
+  /* Make dropdown links full width for mobile */
+  .dropdown .dropdown-content a {
+    display: block;
+    padding-left: 15px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
     .grid {
       display: grid;
-      gap: 1.75rem;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       align-items: stretch;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 18px 56px;
     }
 
     @keyframes gradientMove {
@@ -202,184 +340,287 @@
     }
 
     .card {
-      border-radius: 12px;
+      border-radius: 1rem;
       padding: 1px;
       background: linear-gradient(270deg, var(--from), var(--to), var(--from));
       background-size: 300% 300%;
       animation: gradientMove 6s ease infinite;
-      overflow: hidden;
       cursor: pointer;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.3s ease;
       height: 100%;
     }
-    .card:hover { transform: translateY(-6px); box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
 
     .card-inner {
       background: white;
-      border-radius: 12px;
-      padding: 18px;
+      border-radius: 1rem;
+      padding: 1.5rem;
       height: 100%;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
-    body.dark .card-inner { background: #0f172a; color: #e2e8f0; }
+    body.dark .card-inner { background: #1e293b; }
 
-    .card h3 { font-size: 1.05rem; margin-bottom: 8px; color: #0f172a; }
-    body.dark .card h3 { color: #e2e8f0; }
-    .card p { color: #475569; font-size: 0.92rem; line-height:1.45; margin-bottom: 12px; }
+    .card h3 { font-size: 1.1rem; margin-bottom: 0.6rem; }
+    .card p {
+      font-size: 0.9rem;
+      color: #475569;
+      margin-bottom: 1.5rem;
+      line-height: 1.4;
+    }
     body.dark .card p { color: #cbd5e1; }
 
-    .card-footer { display:flex; justify-content:space-between; color: #64748b; font-size:0.86rem; }
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: #64748b;
+    }
     body.dark .card-footer { color: #94a3b8; }
 
-    /* ---------------------- MODAL / OVERLAY (unchanged) ---------------------- */
     .overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15,23,42,0.55);
-      backdrop-filter: blur(8px);
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      opacity:0;
-      pointer-events:none;
-      transition: opacity 0.25s ease;
-      z-index: 1200;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(6px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      z-index: 50;
     }
-    .overlay.active { opacity:1; pointer-events:auto; }
+    .overlay.active { opacity: 1; pointer-events: auto; }
 
     .modal {
-      width: 92%;
-      max-width: 540px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.92);
-      padding: 22px;
-      box-shadow: 0 20px 40px rgba(8,12,20,0.12);
-      transform: scale(0.96);
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 1rem;
+      max-width: 520px;
+      width: 90%;
+      padding: 2.5rem;
+      transform: scale(0.9);
       opacity: 0;
-      transition: all 0.28s cubic-bezier(.2,.9,.18,1);
-      backdrop-filter: blur(12px);
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(18px);
     }
-    body.dark .modal { background: rgba(18,22,30,0.84); color: #e7eefc; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+    body.dark .modal {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
 
-    .modal h3 { margin:0 0 8px 0; font-size:1.4rem; }
-    .modal p { margin:0 0 12px 0; color:#334155; }
-    body.dark .modal p { color: #dbeafe; }
-    .modal small { display:block; color: #64748b; margin-bottom:12px; }
+    .close-btn {
+      position: absolute;
+      top: 0.8rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      color: #475569;
+      cursor: pointer;
+    }
+    body.dark .close-btn { color: #cbd5e1; }
+
+    .modal h3 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+
+    .modal p { color: #475569; line-height: 1.6; margin-bottom: 1.2rem; }
+    body.dark .modal p { color: #e2e8f0; }
+
+    .modal small {
+      display: block;
+      margin-bottom: 2rem;
+      color: #64748b;
+      font-size: 0.9rem;
+    }
     body.dark .modal small { color: #94a3b8; }
-    .actions { display:flex; gap:10px; flex-wrap:wrap; }
 
-    .btn{ padding:8px 12px; border-radius:8px; border:none; cursor:pointer; font-weight:600; }
-    .btn.primary{ background:#3b82f6; color:#fff; }
-    .btn.secondary{ background:#e2e8f0; color:#0f172a; }
-    .btn.disabled{ background:#cbd5e1; color:#475569; cursor:not-allowed; }
+    .actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
 
-    /* theme toggle */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.6rem 1rem;
+      font-size: 0.9rem;
+      border-radius: 0.4rem;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.25s ease;
+    }
+
+    .btn.primary { background: #3b82f6; color: #fff; }
+    .btn.primary:hover { background: #2563eb; }
+    .btn.secondary { background: #e2e8f0; color: #1e293b; }
+    .btn.secondary:hover { background: #cbd5e1; }
+    body.dark .btn.secondary { background: #334155; color: #f8fafc; }
+    .btn.disabled { background: #cbd5e1; color: #475569; cursor: not-allowed; }
+    body.dark .btn.disabled { background: #475569; color: #cbd5e1; }
+
     #themeToggle {
       position: fixed;
-      bottom: 18px;
-      right: 18px;
-      width:44px; height:44px;
-      border-radius:50%;
-      border:none;
-      background: linear-gradient(135deg,#6ea8ff,#6b5cff);
-      color:white;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      box-shadow: 0 8px 20px rgba(12,24,60,0.12);
-      z-index:1300;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: none;
+      background: #3b82f6;
+      color: #fff;
+      font-size: 1.3rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+      z-index: 100;
+      transition: background 0.3s ease;
     }
-
-    /* small helpers */
-    .hidden { display:none !important; }
+    #themeToggle:hover { background: #2563eb; }
   </style>
 </head>
-<body class="light">
-  <!-- NAVBAR (your HTML kept exactly) -->
-  <header>
-    <div class="brand">
-      <img src="062325.png" alt="Profile" />
-      <strong>Mohammad Mujahid</strong>
+
+<header>
+  <div class="brand">
+    <img src="062325.png" alt="Profile" />
+    <strong>Mohammad Mujahid</strong>
+  </div>
+
+  <div class="hamburger" aria-label="Menu" aria-expanded="false" role="button" tabindex="0">
+    <span></span><span></span><span></span>
+  </div>
+
+  <nav id="navbar" class="navbar">
+    <a href="./index.html">Home</a>
+    <a href="./index.html#about">About</a>
+    <a href="./index.html#experience">Experience</a>
+    <a href="./index.html#skills">Skills</a>
+    <a href="./index.html#contact">Contact</a>
+
+    <div class="dropdown">
+      <a href="#" class="dropbtn" aria-haspopup="true" aria-expanded="false">More ▾</a>
+      <div class="dropdown-content">
+        <a href="./Mujahid.Accenture.OTC.pdf" target="_blank" rel="noopener">Download Resume</a>
+        <a href="./GallupStrenght.html">Gallup Strengths</a>
+        <a href="./Certifications.html">Achievements</a>
+        <a href="./index.html#projects">Projects</a>
+        <a href="./index.html#blogs">Blogs</a>
+        <a href="./index.html#interests">Interests</a>
+      </div>
     </div>
+  </nav>
+</header>
+  
+<div class="intro-center">
+  <h2 class="title"><span>Certifications & Credentials</span></h2>
+</div>
 
-    <div class="hamburger" aria-label="Menu" aria-expanded="false" role="button" tabindex="0">
-      <span></span><span></span><span></span>
-    </div>
+  <section>
+    <p class="subtitle">Verified learning and professional credentials from ICMAI, Accenture, Skillsoft, and more.</p>
+    <div class="grid" id="certGrid"></div>
 
-    <nav id="navbar" class="navbar">
-      <a href="./index.html">Home</a>
-      <a href="./index.html#about">About</a>
-      <a href="./index.html#experience">Experience</a>
-      <a href="./index.html#skills">Skills</a>
-      <a href="./index.html#contact">Contact</a>
-
-      <div class="dropdown">
-        <a href="#" class="dropbtn" aria-haspopup="true" aria-expanded="false">More ▾</a>
-        <div class="dropdown-content">
-          <a href="./Mujahid.Accenture.OTC.pdf" target="_blank" rel="noopener">Download Resume</a>
-          <a href="./GallupStrenght.html">Gallup Strengths</a>
-          <a href="./Certifications.html">Achievements</a>
-          <a href="./index.html#projects">Projects</a>
-          <a href="./index.html#blogs">Blogs</a>
-          <a href="./index.html#interests">Interests</a>
+    <div class="overlay" id="overlay">
+      <div class="modal" id="modal">
+        <button class="close-btn" id="closeBtn">&times;</button>
+        <h3 id="modalTitle"></h3>
+        <p id="modalDescription"></p>
+        <small id="modalDetails"></small>
+        <div class="actions">
+          <button id="viewBtn" class="btn primary">🔗 View Credential</button>
+          <button id="disabledBtn" class="btn disabled">🚫 Credential Not Available</button>
+          <button id="copyBtn" class="btn secondary">Copy Title</button>
         </div>
       </div>
-    </nav>
-  </header>
-
-  <!-- heading (centered under top nav) -->
-  <div class="intro-center" id="introCenter">
-    <h2 class="title"><span>Certifications & Credentials</span></h2>
-  </div>
-
-  <p class="subtitle">Verified learning and professional credentials from ICMAI, Accenture, Skillsoft, and more.</p>
-
-  <!-- Grid -->
-  <div class="grid" id="certGrid"></div>
-
-  <!-- Modal -->
-  <div class="overlay" id="overlay">
-    <div class="modal" id="modal">
-      <button class="close-btn" id="closeBtn" aria-label="close">✕</button>
-      <h3 id="modalTitle"></h3>
-      <p id="modalDescription"></p>
-      <small id="modalDetails"></small>
-      <div class="actions">
-        <button id="viewBtn" class="btn primary">View Credential</button>
-        <button id="disabledBtn" class="btn disabled">Credential Not Available</button>
-        <button id="copyBtn" class="btn secondary">Copy Title</button>
-      </div>
     </div>
-  </div>
+  </section>
 
-  <button id="themeToggle" aria-label="toggle theme">🌙</button>
+  <button id="themeToggle">🌙</button>
 
-  <!-- keep your hamburger script -->
-  <script>
-    const hamburger = document.querySelector('.hamburger');
-    const navbar = document.getElementById('navbar');
 
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active');
-      navbar.classList.toggle('show');
-    });
 
-    // dropdown mobile toggle
-    document.querySelectorAll('.dropdown > .dropbtn').forEach(btn => {
-      btn.addEventListener('click', e => {
-        if (window.innerWidth <= 880) {
-          e.preventDefault();
-          const parent = btn.parentElement;
-          document.querySelectorAll('.dropdown').forEach(d => { if (d !== parent) d.classList.remove('open'); });
-          parent.classList.toggle('open');
-        }
+
+    <script>
+  const hamburger = document.querySelector('.hamburger');
+const navbar = document.getElementById('navbar');
+
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  navbar.classList.toggle('show');
+});
+</script>
+    <script>
+  function toggleDetails(btn) {
+    const details = btn.nextElementSibling;
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    if (!details) return;
+
+    if (!open) {
+      if (details.hasAttribute('hidden')) details.removeAttribute('hidden');
+      details.style.maxHeight = details.scrollHeight + 'px';
+      details.style.paddingTop = '8px';
+      btn.setAttribute('aria-expanded', 'true');
+      btn.textContent = 'Hide Details ▴';
+      details.addEventListener('transitionend', function onEnd() {
+        details.style.maxHeight = 'none';
+        details.removeEventListener('transitionend', onEnd);
       });
-    });
-  </script>
+    } else {
+      const h = details.scrollHeight;
+      details.style.maxHeight = h + 'px';
+      requestAnimationFrame(() => {
+        details.style.maxHeight = '0px';
+        details.style.paddingTop = '0px';
+      });
+      btn.setAttribute('aria-expanded', 'false');
+      btn.textContent = 'View Details ▾';
+      details.addEventListener('transitionend', function onEnd() {
+        details.setAttribute('hidden', '');
+        details.removeEventListener('transitionend', onEnd);
+      });
+    }
+  }
 
-  <!-- main app script (cards, modal, theme) -->
+  // Optional: Disable scroll fade-in on small screens to avoid jank
+  if (window.matchMedia("(max-width: 768px)").matches) {
+    document.querySelectorAll('.timeline-content').forEach(el => {
+      el.style.opacity = 1;
+      el.style.transform = "none";
+    });
+  }
+</script>
+    <script>
+document.querySelectorAll('.dropdown > .dropbtn').forEach(btn => {
+  btn.addEventListener('click', e => {
+    if (window.innerWidth <= 768) { // mobile only
+      e.preventDefault(); // stop navigation
+      const parent = btn.parentElement;
+
+      // Optional: close other dropdowns
+      document.querySelectorAll('.dropdown').forEach(d => {
+        if (d !== parent) d.classList.remove('open');
+      });
+
+      parent.classList.toggle('open'); // toggle current dropdown
+    }
+  });
+});
+</script>
+
+
+
+
+
+  
+
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
@@ -405,8 +646,7 @@
     const disabledBtn = document.getElementById("disabledBtn");
     const themeToggle = document.getElementById("themeToggle");
 
-    // render cards
-    CERTIFICATIONS.forEach((cert, i) => {
+    CERTIFICATIONS.forEach(cert => {
       const div = document.createElement("div");
       div.className = "card";
       div.style.setProperty("--from", cert.from);
@@ -425,20 +665,17 @@
       div.addEventListener("click", () => openModal(cert));
       grid.appendChild(div);
 
-      // entrance animation
       gsap.from(div, {
         scrollTrigger: { trigger: div, start: "top 85%" },
-        opacity: 0, y: 30, duration: 0.55, ease: "power2.out", delay: i * 0.03
+        opacity: 0, y: 40, duration: 0.6, ease: "power2.out"
       });
     });
 
-    // modal
-    function openModal(cert){
+    function openModal(cert) {
       modalTitle.textContent = cert.title;
       modalDescription.textContent = cert.description;
-      modalDetails.textContent = `Issuer: ${cert.issuer} • Date: ${cert.date}`;
-
-      if(cert.hasCredential){
+      modalDetails.textContent = `Issuer: ${cert.issuer} | Date: ${cert.date}`;
+      if (cert.hasCredential) {
         viewBtn.style.display = "inline-flex";
         disabledBtn.style.display = "none";
         viewBtn.onclick = () => window.open(cert.credentialUrl, "_blank");
@@ -450,49 +687,29 @@
       copyBtn.onclick = () => {
         navigator.clipboard.writeText(cert.title);
         copyBtn.textContent = "Copied!";
-        setTimeout(()=> copyBtn.textContent = "Copy Title", 1400);
+        setTimeout(() => (copyBtn.textContent = "Copy Title"), 1500);
       };
 
       overlay.classList.add("active");
-      gsap.fromTo(modal, { scale:0.92, opacity:0, y:-20 }, { scale:1, opacity:1, y:0, duration:0.36, ease:"back.out(1.6)" });
+      gsap.fromTo(modal, { scale: 0.8, opacity: 0, y: -30 }, { scale: 1, opacity: 1, y: 0, duration: 0.35, ease: "back.out(1.8)" });
     }
 
     closeBtn.onclick = closeModal;
-    overlay.onclick = (e) => { if(e.target === overlay) closeModal(); };
-    function closeModal(){
-      gsap.to(modal, { scale:0.95, opacity:0, duration:0.22, onComplete: ()=> overlay.classList.remove("active") });
+    overlay.onclick = e => { if (e.target === overlay) closeModal(); };
+    function closeModal() {
+      gsap.to(modal, { scale: 0.85, opacity: 0, duration: 0.25, onComplete: () => overlay.classList.remove("active") });
     }
 
-    // theme toggle: switch dark class
-    themeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark');
-      themeToggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
-      // adapt header text color for nav items
-      // (nav link colors are handled by CSS body.dark selectors)
+    themeToggle.addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+      themeToggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
     });
-
-    // Ensure header doesn't overlap content:
-    // compute header height and set top margin for intro and grid padding
-    function adjustContentOffset(){
-      const headerEl = document.querySelector('header');
-      if(!headerEl) return;
-      const h = headerEl.getBoundingClientRect().height;
-      // set top margin for intro-center so heading sits below header
-      const intro = document.getElementById('introCenter') || document.querySelector('.intro-center');
-      if(intro) intro.style.marginTop = (h + 18) + 'px';
-      // also add top padding to grid container to be safe
-      const gridEl = document.getElementById('certGrid');
-      if(gridEl) gridEl.style.paddingTop = '18px';
-      // In case page loads scrolled under header, ensure scroll restoration
-      document.documentElement.style.setProperty('--header-height', h + 'px');
-    }
-
-    // adjust on load and resize
-    window.addEventListener('load', adjustContentOffset);
-    window.addEventListener('resize', adjustContentOffset);
-
-    // initial run (in case)
-    adjustContentOffset();
   </script>
 </body>
 </html>
+
+
+In this can will you be able to change the color of the navigation bar because I can't see anything in my certifications portfolio and certifications and credentials are not centered.And this navigation bar should be at the top. It has come down.
+
+
+The code which you gave it's not working fine. I want the navigation HTML what I gave that only. You don't have to change. And certifications and credentials and verified learning and professional credential from ICMEI, Accenture Skills and more it's working but down below I don't see anything here. It's blank.
